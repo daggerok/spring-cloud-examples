@@ -30,7 +30,7 @@ bash gradlew composeDown
 # http :8888/{application}-{profile}.properties
 # http :8888/{label}/{application}-{profile}.properties
 
-http :8888/mq-default.yml                                                                                       21:39:02
+http :8888/mq-default.yml
 HTTP/1.1 200
 Content-Length: 83
 Content-Type: text/plain
@@ -44,7 +44,7 @@ mq:
     port: 5672
   username: guest
 
-http :8888/db-default.properties                                                                                21:38:19
+http :8888/db-default.properties
 HTTP/1.1 200
 Content-Length: 106
 Content-Type: text/plain
@@ -57,7 +57,7 @@ db.server.host: 0.0.0.0
 db.server.port: 5432
 db.username: postgres
 
-http :8888/db/default                                                                                           21:39:35
+http :8888/db/default
 HTTP/1.1 200
 Content-Type: application/json;charset=UTF-8
 Date: Sun, 24 Sep 2017 18:39:40 GMT
