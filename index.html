@@ -923,7 +923,7 @@ bash gradlew composeDown</pre>
 # http :8888/{application}-{profile}.properties
 # http :8888/{label}/{application}-{profile}.properties
 
-http :8888/mq-default.yml                                                                                       21:39:02
+http :8888/mq-default.yml
 HTTP/1.1 200
 Content-Length: 83
 Content-Type: text/plain
@@ -937,7 +937,7 @@ mq:
     port: 5672
   username: guest
 
-http :8888/db-default.properties                                                                                21:38:19
+http :8888/db-default.properties
 HTTP/1.1 200
 Content-Length: 106
 Content-Type: text/plain
@@ -950,7 +950,7 @@ db.server.host: 0.0.0.0
 db.server.port: 5432
 db.username: postgres
 
-http :8888/db/default                                                                                           21:39:35
+http :8888/db/default
 HTTP/1.1 200
 Content-Type: application/json;charset=UTF-8
 Date: Sun, 24 Sep 2017 18:39:40 GMT
@@ -977,7 +977,60 @@ X-Application-Context: application:native,rabbitmq:8888
     ],
     "state": null,
     "version": null
-}</pre>
+}
+
+http :8888/db/dev
+HTTP/1.1 200
+Content-Type: application/json;charset=UTF-8
+Date: Sun, 24 Sep 2017 19:46:57 GMT
+Transfer-Encoding: chunked
+X-Application-Context: application:native:8888
+
+{
+    "label": null,
+    "name": "db",
+    "profiles": [
+        "dev"
+    ],
+    "propertySources": [
+        {
+            "name": "classpath:/config/db-dev.yml",
+            "source": {
+                "db.name": "postgres}",
+                "db.password": "postgres}",
+                "db.server.host": "127.0.0.1",
+                "db.server.port": 5432,
+                "db.username": "postgres}"
+            }
+        },
+        {
+            "name": "classpath:/config/db.yml",
+            "source": {
+                "db.name": "${$DB_NAME:postgres}",
+                "db.password": "${$DB_PASSWORD:postgres}",
+                "db.server.host": "${$DB_SERVER_HOST:0.0.0.0}",
+                "db.server.port": "${$DB_SERVER_PORT:5432}",
+                "db.username": "${$DB_USERNAME:postgres}"
+            }
+        }
+    ],
+    "state": null,
+    "version": null
+}
+
+http :8888/mq-dev.yml
+HTTP/1.1 200
+Content-Length: 85
+Content-Type: text/plain
+Date: Sun, 24 Sep 2017 19:49:45 GMT
+X-Application-Context: application:native:8888
+
+mq:
+  password: guest
+  server:
+    host: 127.0.0.1
+    port: 5672
+  username: guest</pre>
 </div>
 </div>
 </div>
