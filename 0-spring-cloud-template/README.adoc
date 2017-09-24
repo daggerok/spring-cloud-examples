@@ -20,10 +20,8 @@ bash gradlew composeDwown # cleanup
 # http :8888/{application}-{profile}.properties
 # http :8888/{label}/{application}-{profile}.properties
 http :8888/config-server-default.yml
-http :8888/config-server-cloud.yml
-http :8888/config-server/cloud
+http :8888/zipkin-server/default
 ----
-
 
 links:
 
