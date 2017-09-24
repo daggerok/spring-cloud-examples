@@ -538,7 +538,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.4.1,</span>
-<span id="revdate">2017-09-24 20:57:16 EEST</span>
+<span id="revdate">2017-09-24 21:19:44 EEST</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -551,9 +551,10 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#vault-rest-api">3.2. vault REST API</a></li>
 </ul>
 </li>
-<li><a href="#configserver-encryption-decryption">4. ConfigServer encryption / decryption</a></li>
-<li><a href="#links">5. links</a></li>
-<li><a href="#enjoy">6. Enjoy! :)</a></li>
+<li><a href="#configserver-native-profile">4. ConfigServer native profile</a></li>
+<li><a href="#configserver-encryption-decryption">5. ConfigServer encryption / decryption</a></li>
+<li><a href="#links">6. links</a></li>
+<li><a href="#enjoy">7. Enjoy! :)</a></li>
 </ul>
 </div>
 </div>
@@ -776,7 +777,95 @@ Date: Sun, 24 Sep 2017 06:07:03 GMT
 </div>
 </div>
 <div class="sect1">
-<h2 id="configserver-encryption-decryption">4. ConfigServer encryption / decryption</h2>
+<h2 id="configserver-native-profile">4. ConfigServer native profile</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">important</div>
+<div class="content">
+<pre>spring:
+  profiles:
+    active:
+      - native</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">build, run and test</div>
+<div class="content">
+<pre>bash gradlew clean assemble composeUp
+# do some..
+bash gradlew composeDown</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">fetch configs from config-server using REST API</div>
+<div class="content">
+<pre># http :8888/{application}/{profile}[/{label}]
+# http :8888/{application}-{profile}.yml
+# http :8888/{label}/{application}-{profile}.yml
+# http :8888/{application}-{profile}.properties
+# http :8888/{label}/{application}-{profile}.properties
+
+http :8888/mq-default.yml                                                                                       21:39:02
+HTTP/1.1 200
+Content-Length: 83
+Content-Type: text/plain
+Date: Sun, 24 Sep 2017 18:39:02 GMT
+X-Application-Context: application:native,rabbitmq:8888
+
+mq:
+  password: guest
+  server:
+    host: 0.0.0.0
+    port: 5672
+  username: guest
+
+http :8888/db-default.properties                                                                                21:38:19
+HTTP/1.1 200
+Content-Length: 106
+Content-Type: text/plain
+Date: Sun, 24 Sep 2017 18:38:26 GMT
+X-Application-Context: application:native,rabbitmq:8888
+
+db.name: postgres
+db.password: postgres
+db.server.host: 0.0.0.0
+db.server.port: 5432
+db.username: postgres
+
+http :8888/db/default                                                                                           21:39:35
+HTTP/1.1 200
+Content-Type: application/json;charset=UTF-8
+Date: Sun, 24 Sep 2017 18:39:40 GMT
+Transfer-Encoding: chunked
+X-Application-Context: application:native,rabbitmq:8888
+
+{
+    "label": null,
+    "name": "db",
+    "profiles": [
+        "default"
+    ],
+    "propertySources": [
+        {
+            "name": "classpath:/config/db.yml",
+            "source": {
+                "db.name": "${$DB_NAME:postgres}",
+                "db.password": "${$DB_PASSWORD:postgres}",
+                "db.server.host": "${$DB_SERVER_HOST:0.0.0.0}",
+                "db.server.port": "${$DB_SERVER_PORT:5432}",
+                "db.username": "${$DB_USERNAME:postgres}"
+            }
+        }
+    ],
+    "state": null,
+    "version": null
+}</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configserver-encryption-decryption">5. ConfigServer encryption / decryption</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">build, run and test</div>
@@ -813,7 +902,7 @@ http :8888/config-server/default/</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="links">5. links</h2>
+<h2 id="links">6. links</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -825,7 +914,7 @@ http :8888/config-server/default/</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="enjoy">6. Enjoy! :)</h2>
+<h2 id="enjoy">7. Enjoy! :)</h2>
 <div class="sectionbody">
 
 </div>
@@ -834,7 +923,7 @@ http :8888/config-server/default/</pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.4.1<br>
-Last updated 2017-09-24 20:57:16 EEST
+Last updated 2017-09-24 21:19:44 EEST
 </div>
 </div>
 </body>
