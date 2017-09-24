@@ -1,0 +1,90 @@
+= spring-cloud-config native image:https://travis-ci.org/daggerok/spring-cloud-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-cloud-examples"]
+
+Spring Could Config Server native profile
+
+//tag::content[]
+
+.important
+[sources,yaml]
+----
+spring:
+  profiles:
+    active:
+      - native
+----
+
+.build, run and test
+[sources,bash]
+----
+bash gradlew clean assemble composeUp
+# do some..
+bash gradlew composeDown
+----
+
+.fetch configs from config-server using REST API
+[sources,bash]
+----
+# http :8888/{application}/{profile}[/{label}]
+# http :8888/{application}-{profile}.yml
+# http :8888/{label}/{application}-{profile}.yml
+# http :8888/{application}-{profile}.properties
+# http :8888/{label}/{application}-{profile}.properties
+
+http :8888/mq-default.yml                                                                                       21:39:02
+HTTP/1.1 200
+Content-Length: 83
+Content-Type: text/plain
+Date: Sun, 24 Sep 2017 18:39:02 GMT
+X-Application-Context: application:native,rabbitmq:8888
+
+mq:
+  password: guest
+  server:
+    host: 0.0.0.0
+    port: 5672
+  username: guest
+
+http :8888/db-default.properties                                                                                21:38:19
+HTTP/1.1 200
+Content-Length: 106
+Content-Type: text/plain
+Date: Sun, 24 Sep 2017 18:38:26 GMT
+X-Application-Context: application:native,rabbitmq:8888
+
+db.name: postgres
+db.password: postgres
+db.server.host: 0.0.0.0
+db.server.port: 5432
+db.username: postgres
+
+http :8888/db/default                                                                                           21:39:35
+HTTP/1.1 200
+Content-Type: application/json;charset=UTF-8
+Date: Sun, 24 Sep 2017 18:39:40 GMT
+Transfer-Encoding: chunked
+X-Application-Context: application:native,rabbitmq:8888
+
+{
+    "label": null,
+    "name": "db",
+    "profiles": [
+        "default"
+    ],
+    "propertySources": [
+        {
+            "name": "classpath:/config/db.yml",
+            "source": {
+                "db.name": "${$DB_NAME:postgres}",
+                "db.password": "${$DB_PASSWORD:postgres}",
+                "db.server.host": "${$DB_SERVER_HOST:0.0.0.0}",
+                "db.server.port": "${$DB_SERVER_PORT:5432}",
+                "db.username": "${$DB_USERNAME:postgres}"
+            }
+        }
+    ],
+    "state": null,
+    "version": null
+}
+----
+
+//end::content[]

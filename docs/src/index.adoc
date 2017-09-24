@@ -23,6 +23,12 @@ include::../../02-config-server-zipkin-server/README.adoc[tags=content]
 == ConfigServer + Vault
 include::../../03-config-server-vault/README.adoc[tags=content]
 
+== ConfigServer native profile
+include::../../04-config-server-native/README.adoc[tags=content]
+
+== ConfigServer encryption / decryption
+include::../../05-config-server-encryption-decryption/README.adoc[tags=content]
+
 == links
 include::includes/Links.adoc[]
 

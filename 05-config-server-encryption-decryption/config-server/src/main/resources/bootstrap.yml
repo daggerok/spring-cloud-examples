@@ -1,0 +1,19 @@
+server:
+  port: 8888
+spring:
+  profiles:
+    active:
+      - native
+#  application:
+#    name: config-server
+#  rabbitmq:
+#    host: ${$SPRING_RABBITMQ_HOST:0.0.0.0}
+#    port: 5672
+#  cloud:
+#    config:
+#      fail-fast: false
+#      server:
+#        git:
+#          uri: https://github.com/daggerok/spring-cloud-examples
+#          search-paths: 04-config-server-encryption-decryption/config-server/spring-config-repository
+#          force-pull: true
