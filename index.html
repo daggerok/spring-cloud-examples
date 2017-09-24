@@ -538,7 +538,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.4.1,</span>
-<span id="revdate">2017-09-24 09:08:56 EEST</span>
+<span id="revdate">2017-09-24 20:57:16 EEST</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -551,8 +551,9 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#vault-rest-api">3.2. vault REST API</a></li>
 </ul>
 </li>
-<li><a href="#links">4. links</a></li>
-<li><a href="#enjoy">5. Enjoy! :)</a></li>
+<li><a href="#configserver-encryption-decryption">4. ConfigServer encryption / decryption</a></li>
+<li><a href="#links">5. links</a></li>
+<li><a href="#enjoy">6. Enjoy! :)</a></li>
 </ul>
 </div>
 </div>
@@ -775,7 +776,44 @@ Date: Sun, 24 Sep 2017 06:07:03 GMT
 </div>
 </div>
 <div class="sect1">
-<h2 id="links">4. links</h2>
+<h2 id="configserver-encryption-decryption">4. ConfigServer encryption / decryption</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">build, run and test</div>
+<div class="content">
+<pre>bash gradlew clean assemble
+bash gradlew composeUp
+bash gradlew composeDown</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">fetch configs from config-server using REST API</div>
+<div class="content">
+<pre># http :8888/{application}/{profile}[/{label}]
+# http :8888/{application}-{profile}.yml
+# http :8888/{label}/{application}-{profile}.yml
+# http :8888/{application}-{profile}.properties
+# http :8888/{label}/{application}-{profile}.properties
+
+http :8888/config-server-default.properties
+http :8888/config-server-default.yml
+http :8888/config-server/default/</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>links:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="http://cloud.spring.io/spring-cloud-vault/1.0.2.RELEASE/">spring-cloud-vault documentation</a></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="links">5. links</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -787,7 +825,7 @@ Date: Sun, 24 Sep 2017 06:07:03 GMT
 </div>
 </div>
 <div class="sect1">
-<h2 id="enjoy">5. Enjoy! :)</h2>
+<h2 id="enjoy">6. Enjoy! :)</h2>
 <div class="sectionbody">
 
 </div>
@@ -796,7 +834,7 @@ Date: Sun, 24 Sep 2017 06:07:03 GMT
 <div id="footer">
 <div id="footer-text">
 Version 0.4.1<br>
-Last updated 2017-09-24 09:08:56 EEST
+Last updated 2017-09-24 20:57:16 EEST
 </div>
 </div>
 </body>
