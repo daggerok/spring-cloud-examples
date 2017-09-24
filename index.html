@@ -538,7 +538,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.4.1,</span>
-<span id="revdate">2017-09-25 00:16:52 EEST</span>
+<span id="revdate">2017-09-25 01:14:06 EEST</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -548,16 +548,18 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#configserver-zipkinserver">3. ConfigServer + ZipkinServer</a></li>
 <li><a href="#configserver-vault">4. ConfigServer + Vault</a>
 <ul class="sectlevel2">
-<li><a href="#worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">4.1. worked in separate: rabbit and vault in docker-compose + config-server run locally</a></li>
-<li><a href="#not-worked-all-in-docker-compose-together">4.2. not worked all in docker-compose together</a></li>
-<li><a href="#links">4.3. links</a></li>
+<li><a href="#important-to-know">4.1. important to know</a></li>
+<li><a href="#worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">4.2. worked in separate: rabbit and vault in docker-compose + config-server run locally</a></li>
+<li><a href="#not-worked-all-in-docker-compose-together">4.3. not worked all in docker-compose together</a></li>
+<li><a href="#links">4.4. links</a></li>
 </ul>
 </li>
 <li><a href="#configserver-native-profile">5. ConfigServer native profile</a></li>
 <li><a href="#search-locations-in-configserver-native">6. Search Locations in ConfigServer Native</a></li>
 <li><a href="#override-spring-cloud-config">7. Override Spring Cloud Config</a></li>
-<li><a href="#links-2">8. links</a></li>
-<li><a href="#enjoy">9. Enjoy! :)</a></li>
+<li><a href="#spring-cloud-task">8. Spring Cloud Task</a></li>
+<li><a href="#links-2">9. links</a></li>
+<li><a href="#enjoy">10. Enjoy! :)</a></li>
 </ul>
 </div>
 </div>
@@ -691,7 +693,68 @@ http :8888/zipkin-server/default</pre>
 <p>Spring Could Config Server + Vault</p>
 </div>
 <div class="sect2">
-<h3 id="worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">4.1. worked in separate: rabbit and vault in docker-compose + config-server run locally</h3>
+<h3 id="important-to-know">4.1. important to know</h3>
+<div class="sect3">
+<h4 id="vault-profile-properties">4.1.1. vault profile properties</h4>
+<div class="listingblock">
+<div class="title">VaultEnvironmentRepository.java - org/springframework/cloud/config/server/environment/VaultEnvironmentRepository.class</div>
+<div class="content">
+<pre>@ConfigurationProperties("spring.cloud.config.server.vault")
+public class VaultEnvironmentRepository implements EnvironmentRepository, Ordered {
+
+  public static final String VAULT_TOKEN = "X-Vault-Token";
+
+  /** Vault host. Defaults to 127.0.0.1. */
+  @NotEmpty
+  private String host = "127.0.0.1";
+
+  /** Vault port. Defaults to 8200. */
+  @Range(min = 1, max = 65535)
+  private int port = 8200;
+
+  /** Vault scheme. Defaults to http. */
+  private String scheme = "http";
+
+  /** Vault backend. Defaults to secret. */
+  @NotEmpty
+  private String backend = "secret";
+
+  /** The key in vault shared by all applications. Defaults to application. Set to empty to disable. */
+  private String defaultKey = "application";
+
+  /** Vault profile separator. Defaults to comma. */
+  @NotEmpty
+  private String profileSeparator = ",";
+
+  // ...</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="override-any-property">4.1.2. override any property</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>override vault host in bootstrap.yml</p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>spring:
+  profiles:
+    active: vault
+  cloud:
+    config:
+      server:
+        vault:
+          host: vault</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">4.2. worked in separate: rabbit and vault in docker-compose + config-server run locally</h3>
 <div class="listingblock">
 <div class="title">build, run and test - not worked with confog-server in docker, run it in separate mode locally after vault docker will be bootstrapped</div>
 <div class="content">
@@ -701,7 +764,7 @@ bash gradlew composeDown</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="spring-cloud-config-vault">4.1.1. spring-cloud-config-vault</h4>
+<h4 id="spring-cloud-config-vault">4.2.1. spring-cloud-config-vault</h4>
 <div class="listingblock">
 <div class="title">do unauthorized request</div>
 <div class="content">
@@ -798,7 +861,7 @@ X-Application-Context: application:vault:8888
 </div>
 </div>
 <div class="sect3">
-<h4 id="vault-rest-api">4.1.2. vault REST API</h4>
+<h4 id="vault-rest-api">4.2.2. vault REST API</h4>
 <div class="listingblock">
 <div class="title">vault using REST API</div>
 <div class="content">
@@ -823,7 +886,7 @@ Date: Sun, 24 Sep 2017 06:07:03 GMT
 </div>
 </div>
 <div class="sect2">
-<h3 id="not-worked-all-in-docker-compose-together">4.2. not worked all in docker-compose together</h3>
+<h3 id="not-worked-all-in-docker-compose-together">4.3. not worked all in docker-compose together</h3>
 <div class="listingblock">
 <div class="title">add in settings.gralde</div>
 <div class="content">
@@ -913,7 +976,7 @@ info: config-server + vault</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="links">4.3. links</h3>
+<h3 id="links">4.4. links</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1381,7 +1444,35 @@ foo: overridden foo</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="links-2">8. links</h2>
+<h2 id="spring-cloud-task">8. Spring Cloud Task</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Spring Could Task</p>
+</div>
+<div class="listingblock">
+<div class="title">build, run and test</div>
+<div class="content">
+<pre>bash gradlew clean assemble composeUp
+bash gradlew composeDown</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>links:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="https://www.youtube.com/watch?v=EB3g-H51AN0">demo 1</a></p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=Xp9n8P4nxGc">demo 2</a></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="links-2">9. links</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -1393,7 +1484,7 @@ foo: overridden foo</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="enjoy">9. Enjoy! :)</h2>
+<h2 id="enjoy">10. Enjoy! :)</h2>
 <div class="sectionbody">
 
 </div>
@@ -1402,7 +1493,7 @@ foo: overridden foo</pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.4.1<br>
-Last updated 2017-09-25 00:16:52 EEST
+Last updated 2017-09-25 01:14:06 EEST
 </div>
 </div>
 </body>
