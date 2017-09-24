@@ -8,11 +8,11 @@ Spring Could Config Server
 [sources,bash]
 ----
 bash gradlew clean assemble
-bash gradlew composeUp    # up infrastructure
-bash gradlew composeDwown # cleanup
+bash gradlew composeUp
+bash gradlew composeDown
 ----
 
-.config-server
+.fetch configs from config-server using REST API
 [sources,bash]
 ----
 # http :8888/{application}/{profile}[/{label}]
@@ -21,6 +21,7 @@ bash gradlew composeDwown # cleanup
 # http :8888/{application}-{profile}.properties
 # http :8888/{label}/{application}-{profile}.properties
 
+http :8888/config-server-default.properties
 http :8888/config-server-default.yml
 http :8888/config-server/default/
 ----
