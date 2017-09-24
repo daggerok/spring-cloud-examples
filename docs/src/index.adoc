@@ -17,6 +17,9 @@ include::includes/Introduction.adoc[]
 == Spring Cloud Config Server
 include::../../01-spring-cloud-config/README.adoc[tags=content]
 
+== ConfigServer + ZipkinServer
+include::../../01-spring-cloud-config/README.adoc[tags=content]
+
 == links
 include::includes/Links.adoc[]
 

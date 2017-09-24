@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: zipkin-server
+  cloud:
+    config:
+      fail-fast: false
+      uri: http://${$CONFIG_SERVER_HOST:0.0.0.0}:8888

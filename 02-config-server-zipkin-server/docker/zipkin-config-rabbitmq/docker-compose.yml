@@ -1,0 +1,45 @@
+version: "2.1"
+services:
+  rabbitmq:
+    restart: unless-stopped
+    build: ../../rabbitmq
+    volumes:
+      - "rabbitmq-data:/var/lib/rabbitmq"
+      - "rabbitmq-data:/etc/rabbitmq"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks: [backing-services]
+  config-server:
+    restart: unless-stopped
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    build: ../../config-server
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+    volumes: ["config-server-data:/opt/app"]
+    ports: ["8888:8888"]
+    networks: [backing-services]
+  zipkin-server:
+    restart: unless-stopped
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      config-server:
+        condition: service_healthy
+    build: ../../zipkin-server
+    environment:
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      CONFIG_SERVER_HOST: config-server
+      SPRING_RABBITMQ_HOST: rabbitmq
+    volumes: ["zipkin-server-data:/opt/app"]
+    ports: ["9411:9411"]
+    networks: [backing-services]
+volumes:
+  rabbitmq-data: {}
+  config-server-data: {}
+  zipkin-server-data: {}
+networks:
+  backing-services:
+    driver: bridge

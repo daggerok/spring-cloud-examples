@@ -1,0 +1,4 @@
+foo: bar
+
+server:
+  port: 0

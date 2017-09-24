@@ -1,0 +1,41 @@
+plugins {
+  id "com.avast.gradle.docker-compose" version "0.5.4"
+}
+
+// fix windows paths, replace all "\\" with "/"
+def root = rootDir.absolutePath.replaceAll("\\\\", "/")
+
+subprojects {
+  dockerCompose {
+    useComposeFiles = ["$root/docker/$project.name/docker-compose.yml"]
+    captureContainersOutput = true
+    stopContainers = true
+    removeContainers = true
+    removeImages = "Local"
+    removeVolumes = true
+    removeOrphans = true
+    projectName = "$project.name"
+  }
+
+  tasks.create("$project.name-up") {
+    dependsOn composeUp
+  }
+
+  tasks.create("$project.name-down") {
+    dependsOn composeDown
+  }
+}
+
+/*
+def username = project.hasProperty("dockerHubUsername") ? project.property("dockerHubUsername") : ""
+
+task docker(type: Exec) {
+  shouldRunAfter ":build"
+  executable "bash"
+  args "-c", """
+docker build --rm -t $username/$rootProject.name $rootDir.absolutePath ;
+docker tag $username/$rootProject.name:latest $username/$rootProject.name ;
+docker push $username/$rootProject.name
+"""
+}
+*/

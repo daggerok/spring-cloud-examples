@@ -1,0 +1,3 @@
+include "docker:zipkin-config-rabbitmq"
+include "config-server"
+include "zipkin-server"
