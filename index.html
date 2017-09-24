@@ -547,13 +547,14 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#configserver-zipkinserver">2. ConfigServer + ZipkinServer</a></li>
 <li><a href="#configserver-vault">3. ConfigServer + Vault</a>
 <ul class="sectlevel2">
-<li><a href="#spring-cloud-config-vault">3.1. spring-cloud-config-vault</a></li>
-<li><a href="#vault-rest-api">3.2. vault REST API</a></li>
+<li><a href="#worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">3.1. worked in separate: rabbit and vault in docker-compose + config-server run locally</a></li>
+<li><a href="#not-worked-all-in-docker-compose-together">3.2. not worked all in docker-compose together</a></li>
+<li><a href="#links">3.3. links</a></li>
 </ul>
 </li>
 <li><a href="#configserver-native-profile">4. ConfigServer native profile</a></li>
 <li><a href="#configserver-encryption-decryption">5. ConfigServer encryption / decryption</a></li>
-<li><a href="#links">6. links</a></li>
+<li><a href="#links-2">6. links</a></li>
 <li><a href="#enjoy">7. Enjoy! :)</a></li>
 </ul>
 </div>
@@ -647,18 +648,23 @@ http :8888/zipkin-server/default</pre>
 <div class="sect1">
 <h2 id="configserver-vault">3. ConfigServer + Vault</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Spring Could Config Server + Vault</p>
+</div>
+<div class="sect2">
+<h3 id="worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">3.1. worked in separate: rabbit and vault in docker-compose + config-server run locally</h3>
 <div class="listingblock">
-<div class="title">build, run and test</div>
+<div class="title">build, run and test - not worked with confog-server in docker, run it in separate mode locally after vault docker will be bootstrapped</div>
 <div class="content">
 <pre>bash gradlew clean assemble composeUp bootRun
 # do some...
 bash gradlew composeDown</pre>
 </div>
 </div>
-<div class="sect2">
-<h3 id="spring-cloud-config-vault">3.1. spring-cloud-config-vault</h3>
+<div class="sect3">
+<h4 id="spring-cloud-config-vault">3.1.1. spring-cloud-config-vault</h4>
 <div class="listingblock">
-<div class="title">do some unauthorized request</div>
+<div class="title">do unauthorized request</div>
 <div class="content">
 <pre>http :8888/application-default.properties
 HTTP/1.1 400
@@ -679,7 +685,143 @@ X-Application-Context: application:vault:8888
 </div>
 </div>
 <div class="listingblock">
-<div class="title">authorized request</div>
+<div class="title">do authorized request</div>
+<div class="content">
+<pre>http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
+HTTP/1.1 200
+Content-Length: 0
+Content-Type: text/plain
+Date: Sun, 24 Sep 2017 07:09:49 GMT
+X-Application-Context: application:vault:8888
+# nothing...</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">authorize vault in console</div>
+<div class="content">
+<pre>echo "spring-cloud-examples-vault-token" &gt; ~/.vault-token
+export VAULT_ADDR='http://0.0.0.0:8200'</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">add some data t ovault storage</div>
+<div class="content">
+<pre>vault write /secret/application foo=bar
+Success! Data written to: secret/application
+
+vault write /secret/bootstrap info='config-server + vault'
+Success! Data written to: secret/bootstrap</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">fetch data</div>
+<div class="content">
+<pre>http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
+HTTP/1.1 200
+Content-Length: 8
+Content-Type: text/plain
+Date: Sun, 24 Sep 2017 07:09:49 GMT
+X-Application-Context: application:vault:8888
+
+foo: bar
+
+http :8888/bootstrap/default 'X-Config-Token:spring-cloud-examples-vault-token'
+HTTP/1.1 200
+Content-Type: application/json;charset=UTF-8
+Date: Sun, 24 Sep 2017 07:10:03 GMT
+Transfer-Encoding: chunked
+X-Application-Context: application:vault:8888
+
+{
+    "label": null,
+    "name": "bootstrap",
+    "profiles": [
+        "default"
+    ],
+    "propertySources": [
+        {
+            "name": "vault:bootstrap",
+            "source": {
+                "info": "config-server + vault"
+            }
+        },
+        {
+            "name": "vault:application",
+            "source": {
+                "foo": "bar"
+            }
+        }
+    ],
+    "state": null,
+    "version": null
+}</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="vault-rest-api">3.1.2. vault REST API</h4>
+<div class="listingblock">
+<div class="title">vault using REST API</div>
+<div class="content">
+<pre>http :8200/v1/sys/health
+HTTP/1.1 200 OK
+Cache-Control: no-store
+Content-Length: 182
+Content-Type: application/json
+Date: Sun, 24 Sep 2017 06:07:03 GMT
+
+{
+    "cluster_id": "55c792d9-e39b-15ca-d13a-1942240d5a5f",
+    "cluster_name": "vault-cluster",
+    "initialized": true,
+    "sealed": false,
+    "server_time_utc": 1506233223,
+    "standby": false,
+    "version": "0.8.3"
+}</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="not-worked-all-in-docker-compose-together">3.2. not worked all in docker-compose together</h3>
+<div class="listingblock">
+<div class="title">add in settings.gralde</div>
+<div class="content">
+<pre>include "docker:vault-rabbitmq-config"</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">build, run and test - not worked with confog-server in docker, run it in separate mode locally after vault docker will be bootstrapped</div>
+<div class="content">
+<pre>bash gradlew clean assemble composeUp
+# do some...
+bash gradlew composeDown</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">do unauthorized request</div>
+<div class="content">
+<pre>http :8888/application-default.properties
+HTTP/1.1 400
+Connection: close
+Content-Type: application/json;charset=UTF-8
+Date: Sun, 24 Sep 2017 07:08:14 GMT
+Transfer-Encoding: chunked
+X-Application-Context: application:vault:8888
+
+{
+    "error": "Bad Request",
+    "exception": "java.lang.IllegalArgumentException",
+    "message": "Missing required header: X-Config-Token",
+    "path": "/application-default.properties",
+    "status": 400,
+    "timestamp": 1506236894133
+}</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">do some authorized requests</div>
 <div class="content">
 <pre>http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
 HTTP/1.1 200
@@ -732,31 +874,7 @@ info: config-server + vault</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="vault-rest-api">3.2. vault REST API</h3>
-<div class="listingblock">
-<div class="title">vault using REST API</div>
-<div class="content">
-<pre>http :8200/v1/sys/health
-HTTP/1.1 200 OK
-Cache-Control: no-store
-Content-Length: 182
-Content-Type: application/json
-Date: Sun, 24 Sep 2017 06:07:03 GMT
-
-{
-    "cluster_id": "55c792d9-e39b-15ca-d13a-1942240d5a5f",
-    "cluster_name": "vault-cluster",
-    "initialized": true,
-    "sealed": false,
-    "server_time_utc": 1506233223,
-    "standby": false,
-    "version": "0.8.3"
-}</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>links:</p>
-</div>
+<h3 id="links">3.3. links</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -902,7 +1020,7 @@ http :8888/config-server/default/</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="links">6. links</h2>
+<h2 id="links-2">6. links</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
