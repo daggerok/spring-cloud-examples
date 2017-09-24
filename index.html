@@ -545,7 +545,12 @@ table.CodeRay td.code>pre{padding:0}
 <ul class="sectlevel1">
 <li><a href="#configserver">1. ConfigServer</a></li>
 <li><a href="#configserver-zipkinserver">2. ConfigServer + ZipkinServer</a></li>
-<li><a href="#configserver-vault">3. ConfigServer + Vault</a></li>
+<li><a href="#configserver-vault">3. ConfigServer + Vault</a>
+<ul class="sectlevel2">
+<li><a href="#spring-cloud-config-vault">3.1. spring-cloud-config-vault</a></li>
+<li><a href="#vault-rest-api">3.2. vault REST API</a></li>
+</ul>
+</li>
 <li><a href="#links">4. links</a></li>
 <li><a href="#enjoy">5. Enjoy! :)</a></li>
 </ul>
@@ -643,29 +648,93 @@ http :8888/zipkin-server/default</pre>
 <div class="listingblock">
 <div class="title">build, run and test</div>
 <div class="content">
-<pre>bash gradlew clean assemble
-bash gradlew composeUp
+<pre>bash gradlew clean assemble composeUp bootRun
+# do some...
 bash gradlew composeDown</pre>
 </div>
 </div>
+<div class="sect2">
+<h3 id="spring-cloud-config-vault">3.1. spring-cloud-config-vault</h3>
 <div class="listingblock">
-<div class="title">fetch configs from config-server using REST API</div>
+<div class="title">do some unauthorized request</div>
 <div class="content">
-<pre># http :8888/{application}/{profile}[/{label}]
-# http :8888/{application}-{profile}.yml
-# http :8888/{label}/{application}-{profile}.yml
-# http :8888/{application}-{profile}.properties
-# http :8888/{label}/{application}-{profile}.properties
+<pre>http :8888/application-default.properties
+HTTP/1.1 400
+Connection: close
+Content-Type: application/json;charset=UTF-8
+Date: Sun, 24 Sep 2017 07:08:14 GMT
+Transfer-Encoding: chunked
+X-Application-Context: application:vault:8888
 
-http :8888/config-server-default.properties
-http :8888/config-server-default.yml
-http :8888/config-server/default</pre>
+{
+    "error": "Bad Request",
+    "exception": "java.lang.IllegalArgumentException",
+    "message": "Missing required header: X-Config-Token",
+    "path": "/application-default.properties",
+    "status": 400,
+    "timestamp": 1506236894133
+}</pre>
 </div>
 </div>
+<div class="listingblock">
+<div class="title">authorized request</div>
+<div class="content">
+<pre>http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
+HTTP/1.1 200
+Content-Length: 0
+Content-Type: text/plain
+Date: Sun, 24 Sep 2017 07:09:49 GMT
+X-Application-Context: application:vault:8888
+# nothing...</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">authorize vault in console</div>
+<div class="content">
+<pre>echo "spring-cloud-examples-vault-token" &gt; ~/.vault-token
+export VAULT_ADDR='http://0.0.0.0:8200'</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">add some data</div>
+<div class="content">
+<pre>vault write /secret/application foo=bar
+Success! Data written to: secret/application
+
+vault write /secret/bootstrap info='config-server + vault'
+Success! Data written to: secret/bootstrap</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">fetch data</div>
+<div class="content">
+<pre>http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
+HTTP/1.1 200
+Content-Length: 8
+Content-Type: text/plain
+Date: Sun, 24 Sep 2017 07:13:50 GMT
+X-Application-Context: application:vault:8888
+
+foo: bar
+
+http :8888/bootstrap-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
+HTTP/1.1 200
+Content-Length: 36
+Content-Type: text/plain
+Date: Sun, 24 Sep 2017 07:14:14 GMT
+X-Application-Context: application:vault:8888
+
+foo: bar
+info: config-server + vault</pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="vault-rest-api">3.2. vault REST API</h3>
 <div class="listingblock">
 <div class="title">vault using REST API</div>
 <div class="content">
-<pre>http :8200/v1/sys/health                                                                                        09:07:00
+<pre>http :8200/v1/sys/health
 HTTP/1.1 200 OK
 Cache-Control: no-store
 Content-Length: 182
@@ -689,9 +758,19 @@ Date: Sun, 24 Sep 2017 06:07:03 GMT
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p><a href="http://cloud.spring.io/spring-cloud-vault/1.0.2.RELEASE/">spring-cloud-vault documentation</a></p>
+<p><a href="http://cloud.spring.io/spring-cloud-vault/1.0.2.RELEASE/">documentation</a></p>
+</li>
+<li>
+<p><a href="http://cloud.spring.io/spring-cloud-vault/spring-cloud-vault-config.html">spring-cloud-vault-config</a></p>
+</li>
+<li>
+<p><a href="https://www.vaultproject.io/intro/getting-started/apis.html">vault REST API</a></p>
+</li>
+<li>
+<p><a href="https://www.youtube.com/watch?v=C6coAVlLFec">bad quality youtube demo</a></p>
 </li>
 </ol>
+</div>
 </div>
 </div>
 </div>
