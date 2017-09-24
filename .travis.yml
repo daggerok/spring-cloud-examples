@@ -33,6 +33,7 @@ script:
   - export ROOT=$PWD
   - >
     for path in \
+      05-spring-cloud-task \
       04-config-server-overrides \
       04-native-search-locations \
       04-config-server-native \

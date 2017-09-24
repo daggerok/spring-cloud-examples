@@ -1,3 +1,4 @@
+hidden-*
 .gradle/
 build/
 !gradle-wrapper.jar

@@ -9,6 +9,7 @@ This repository contains some spring-cloud playground projects
 . link:04-config-server-native/[Config Server native profile]
 . link:04-native-search-locations/[Search Locations with Config Server Native]
 . link:04-config-server-overrides/[Spring Cloud Config Server Overrides]
+. link:05-spring-cloud-task/[Spring Cloud Task]
 
 .publish documentation to GitHub Pages
 [sources,bash]

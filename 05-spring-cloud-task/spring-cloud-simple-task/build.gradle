@@ -1,0 +1,5 @@
+dependencies {
+  compile('org.springframework.cloud:spring-cloud-starter-task')
+  runtime('org.springframework.boot:spring-boot-devtools')
+  compileOnly('org.projectlombok:lombok')
+}

@@ -1,0 +1,19 @@
+= spring-cloud-task image:https://travis-ci.org/daggerok/spring-cloud-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-cloud-examples"]
+
+//tag::content[]
+
+Spring Could Task
+
+.build, run and test
+[sources,bash]
+----
+bash gradlew clean assemble composeUp
+bash gradlew composeDown
+----
+
+links:
+
+. link:https://www.youtube.com/watch?v=EB3g-H51AN0[demo 1]
+. link:https://www.youtube.com/watch?v=Xp9n8P4nxGc[demo 2]
+
+//end::content[]
