@@ -3,11 +3,11 @@
 This repository contains some spring-cloud playground projects
 
 . link:01-spring-cloud-config/[Spring Cloud Config Server]
+. link:01-config-server-encryption-decryption/[Config Server encryption / decryption]
 . link:02-config-server-zipkin-server/[Config Server + Zipkin Server]
 . link:03-config-server-vault/[Config Server + Vault]
 . link:04-config-server-native/[Config Server native profile]
 . link:04-native-search-locations/[Search Locations with Config Server Native]
-. link:05-config-server-encryption-decryption/[Config Server encryption / decryption]
 
 .publish documentation to GitHub Pages
 [sources,bash]
