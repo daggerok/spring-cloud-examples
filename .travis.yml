@@ -33,6 +33,7 @@ script:
   - export ROOT=$PWD
   - >
     for path in \
+      01-spring-cloud-config-server \
       0-spring-cloud-template \
       ;
     do

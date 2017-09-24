@@ -1,0 +1,2 @@
+include "docker:config-rabbitmq"
+include "config-server"

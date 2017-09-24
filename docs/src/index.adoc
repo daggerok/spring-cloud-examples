@@ -14,8 +14,8 @@ Maksim Kostromin <daggerok@gmail.com>
 == Introduction
 include::includes/Introduction.adoc[]
 
-== spring-cloud-boot template
-include::../../0-spring-cloud-template/README.adoc[tags=content]
+== Spring Cloud Config Server
+include::../../01-spring-cloud-config/README.adoc[tags=content]
 
 == links
 include::includes/Links.adoc[]

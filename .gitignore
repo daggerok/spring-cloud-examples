@@ -1,11 +1,6 @@
-!.gitkeep
-
-.DS_Store
 .gradle/
-!gradle-wrapper.jar
-
 build/
-out/
+!gradle-wrapper.jar
 
 ### STS ###
 .apt_generated
@@ -23,10 +18,17 @@ out/
 
 ### NetBeans ###
 nbproject/private/
+build/
 nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+!.gitkeep
+.DS_Store
+
+build/
+out/
 
 node_modules/
 bower_components/
