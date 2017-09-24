@@ -538,23 +538,23 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.4.1,</span>
-<span id="revdate">2017-09-24 22:56:08 EEST</span>
+<span id="revdate">2017-09-24 23:24:41 EEST</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#configserver">1. ConfigServer</a></li>
-<li><a href="#configserver-zipkinserver">2. ConfigServer + ZipkinServer</a></li>
-<li><a href="#configserver-vault">3. ConfigServer + Vault</a>
+<li><a href="#configserver-encryption-decryption">2. ConfigServer encryption / decryption</a></li>
+<li><a href="#configserver-zipkinserver">3. ConfigServer + ZipkinServer</a></li>
+<li><a href="#configserver-vault">4. ConfigServer + Vault</a>
 <ul class="sectlevel2">
-<li><a href="#worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">3.1. worked in separate: rabbit and vault in docker-compose + config-server run locally</a></li>
-<li><a href="#not-worked-all-in-docker-compose-together">3.2. not worked all in docker-compose together</a></li>
-<li><a href="#links">3.3. links</a></li>
+<li><a href="#worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">4.1. worked in separate: rabbit and vault in docker-compose + config-server run locally</a></li>
+<li><a href="#not-worked-all-in-docker-compose-together">4.2. not worked all in docker-compose together</a></li>
+<li><a href="#links">4.3. links</a></li>
 </ul>
 </li>
-<li><a href="#configserver-native-profile">4. ConfigServer native profile</a></li>
-<li><a href="#saerch-locations-in-configserver-native">5. Saerch locations in ConfigServer Native</a></li>
-<li><a href="#configserver-encryption-decryption">6. ConfigServer encryption / decryption</a></li>
+<li><a href="#configserver-native-profile">5. ConfigServer native profile</a></li>
+<li><a href="#saerch-locations-in-configserver-native">6. Saerch locations in ConfigServer Native</a></li>
 <li><a href="#links-2">7. links</a></li>
 <li><a href="#enjoy">8. Enjoy! :)</a></li>
 </ul>
@@ -609,7 +609,44 @@ http :8888/config-server/default/</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="configserver-zipkinserver">2. ConfigServer + ZipkinServer</h2>
+<h2 id="configserver-encryption-decryption">2. ConfigServer encryption / decryption</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">build, run and test</div>
+<div class="content">
+<pre>bash gradlew clean assemble
+bash gradlew composeUp
+bash gradlew composeDown</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">fetch configs from config-server using REST API</div>
+<div class="content">
+<pre># http :8888/{application}/{profile}[/{label}]
+# http :8888/{application}-{profile}.yml
+# http :8888/{label}/{application}-{profile}.yml
+# http :8888/{application}-{profile}.properties
+# http :8888/{label}/{application}-{profile}.properties
+
+http :8888/config-server-default.properties
+http :8888/config-server-default.yml
+http :8888/config-server/default/</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>links:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="http://cloud.spring.io/spring-cloud-vault/1.0.2.RELEASE/">spring-cloud-vault documentation</a></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configserver-zipkinserver">3. ConfigServer + ZipkinServer</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">build, run and test</div>
@@ -647,13 +684,13 @@ http :8888/zipkin-server/default</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="configserver-vault">3. ConfigServer + Vault</h2>
+<h2 id="configserver-vault">4. ConfigServer + Vault</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Spring Could Config Server + Vault</p>
 </div>
 <div class="sect2">
-<h3 id="worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">3.1. worked in separate: rabbit and vault in docker-compose + config-server run locally</h3>
+<h3 id="worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">4.1. worked in separate: rabbit and vault in docker-compose + config-server run locally</h3>
 <div class="listingblock">
 <div class="title">build, run and test - not worked with confog-server in docker, run it in separate mode locally after vault docker will be bootstrapped</div>
 <div class="content">
@@ -663,7 +700,7 @@ bash gradlew composeDown</pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="spring-cloud-config-vault">3.1.1. spring-cloud-config-vault</h4>
+<h4 id="spring-cloud-config-vault">4.1.1. spring-cloud-config-vault</h4>
 <div class="listingblock">
 <div class="title">do unauthorized request</div>
 <div class="content">
@@ -760,7 +797,7 @@ X-Application-Context: application:vault:8888
 </div>
 </div>
 <div class="sect3">
-<h4 id="vault-rest-api">3.1.2. vault REST API</h4>
+<h4 id="vault-rest-api">4.1.2. vault REST API</h4>
 <div class="listingblock">
 <div class="title">vault using REST API</div>
 <div class="content">
@@ -785,7 +822,7 @@ Date: Sun, 24 Sep 2017 06:07:03 GMT
 </div>
 </div>
 <div class="sect2">
-<h3 id="not-worked-all-in-docker-compose-together">3.2. not worked all in docker-compose together</h3>
+<h3 id="not-worked-all-in-docker-compose-together">4.2. not worked all in docker-compose together</h3>
 <div class="listingblock">
 <div class="title">add in settings.gralde</div>
 <div class="content">
@@ -875,7 +912,7 @@ info: config-server + vault</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="links">3.3. links</h3>
+<h3 id="links">4.3. links</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -896,7 +933,7 @@ info: config-server + vault</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="configserver-native-profile">4. ConfigServer native profile</h2>
+<h2 id="configserver-native-profile">5. ConfigServer native profile</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">important</div>
@@ -1037,7 +1074,7 @@ mq:
 </div>
 </div>
 <div class="sect1">
-<h2 id="saerch-locations-in-configserver-native">5. Saerch locations in ConfigServer Native</h2>
+<h2 id="saerch-locations-in-configserver-native">6. Saerch locations in ConfigServer Native</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Search locations for Spring Could Config Server Native</p>
@@ -1180,43 +1217,6 @@ mq:
 </div>
 </div>
 <div class="sect1">
-<h2 id="configserver-encryption-decryption">6. ConfigServer encryption / decryption</h2>
-<div class="sectionbody">
-<div class="listingblock">
-<div class="title">build, run and test</div>
-<div class="content">
-<pre>bash gradlew clean assemble
-bash gradlew composeUp
-bash gradlew composeDown</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">fetch configs from config-server using REST API</div>
-<div class="content">
-<pre># http :8888/{application}/{profile}[/{label}]
-# http :8888/{application}-{profile}.yml
-# http :8888/{label}/{application}-{profile}.yml
-# http :8888/{application}-{profile}.properties
-# http :8888/{label}/{application}-{profile}.properties
-
-http :8888/config-server-default.properties
-http :8888/config-server-default.yml
-http :8888/config-server/default/</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>links:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><a href="http://cloud.spring.io/spring-cloud-vault/1.0.2.RELEASE/">spring-cloud-vault documentation</a></p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<div class="sect1">
 <h2 id="links-2">7. links</h2>
 <div class="sectionbody">
 <div class="olist arabic">
@@ -1238,7 +1238,7 @@ http :8888/config-server/default/</pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.4.1<br>
-Last updated 2017-09-24 22:56:08 EEST
+Last updated 2017-09-24 23:24:41 EEST
 </div>
 </div>
 </body>
