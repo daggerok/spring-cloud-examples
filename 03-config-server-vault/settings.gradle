@@ -1,0 +1,3 @@
+include "docker:vault-rabbitmq-config"
+//include "docker:vault-rabbitmq"
+include "config-server"

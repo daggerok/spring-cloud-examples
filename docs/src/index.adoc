@@ -14,11 +14,14 @@ Maksim Kostromin <daggerok@gmail.com>
 == Introduction
 include::includes/Introduction.adoc[]
 
-== Spring Cloud Config Server
+== ConfigServer
 include::../../01-spring-cloud-config/README.adoc[tags=content]
 
 == ConfigServer + ZipkinServer
-include::../../01-spring-cloud-config/README.adoc[tags=content]
+include::../../02-config-server-zipkin-server/README.adoc[tags=content]
+
+== ConfigServer + Vault
+include::../../03-config-server-vault/README.adoc[tags=content]
 
 == links
 include::includes/Links.adoc[]

@@ -1,0 +1,120 @@
+= spring-cloud-config-vault image:https://travis-ci.org/daggerok/spring-cloud-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-cloud-examples"]
+
+Spring Could Config Server + Vault
+
+//tag::content[]
+
+.build, run and test
+[sources,bash]
+----
+bash gradlew clean assemble composeUp bootRun
+# do some...
+bash gradlew composeDown
+----
+
+=== spring-cloud-config-vault
+
+.do some unauthorized request
+[sources,bash]
+----
+http :8888/application-default.properties
+HTTP/1.1 400
+Connection: close
+Content-Type: application/json;charset=UTF-8
+Date: Sun, 24 Sep 2017 07:08:14 GMT
+Transfer-Encoding: chunked
+X-Application-Context: application:vault:8888
+
+{
+    "error": "Bad Request",
+    "exception": "java.lang.IllegalArgumentException",
+    "message": "Missing required header: X-Config-Token",
+    "path": "/application-default.properties",
+    "status": 400,
+    "timestamp": 1506236894133
+}
+----
+
+.authorized request
+[sources,bash]
+----
+http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
+HTTP/1.1 200
+Content-Length: 0
+Content-Type: text/plain
+Date: Sun, 24 Sep 2017 07:09:49 GMT
+X-Application-Context: application:vault:8888
+# nothing...
+----
+
+.authorize vault in console
+[sources,bash]
+----
+echo "spring-cloud-examples-vault-token" > ~/.vault-token
+export VAULT_ADDR='http://0.0.0.0:8200'
+----
+
+.add some data
+[sources,bash]
+----
+vault write /secret/application foo=bar
+Success! Data written to: secret/application
+
+vault write /secret/bootstrap info='config-server + vault'
+Success! Data written to: secret/bootstrap
+----
+
+.fetch data
+[sources,bash]
+----
+http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
+HTTP/1.1 200
+Content-Length: 8
+Content-Type: text/plain
+Date: Sun, 24 Sep 2017 07:13:50 GMT
+X-Application-Context: application:vault:8888
+
+foo: bar
+
+http :8888/bootstrap-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
+HTTP/1.1 200
+Content-Length: 36
+Content-Type: text/plain
+Date: Sun, 24 Sep 2017 07:14:14 GMT
+X-Application-Context: application:vault:8888
+
+foo: bar
+info: config-server + vault
+----
+
+=== vault REST API
+
+.vault using REST API
+[sources,bash]
+----
+http :8200/v1/sys/health
+HTTP/1.1 200 OK
+Cache-Control: no-store
+Content-Length: 182
+Content-Type: application/json
+Date: Sun, 24 Sep 2017 06:07:03 GMT
+
+{
+    "cluster_id": "55c792d9-e39b-15ca-d13a-1942240d5a5f",
+    "cluster_name": "vault-cluster",
+    "initialized": true,
+    "sealed": false,
+    "server_time_utc": 1506233223,
+    "standby": false,
+    "version": "0.8.3"
+}
+----
+
+links:
+
+. link:http://cloud.spring.io/spring-cloud-vault/1.0.2.RELEASE/[documentation]
+. link:http://cloud.spring.io/spring-cloud-vault/spring-cloud-vault-config.html[spring-cloud-vault-config]
+. link:https://www.vaultproject.io/intro/getting-started/apis.html[vault REST API]
+. link:https://www.youtube.com/watch?v=C6coAVlLFec[bad quality youtube demo]
+
+//end::content[]

@@ -33,6 +33,8 @@ script:
   - export ROOT=$PWD
   - >
     for path in \
+      03-config-server-vault \
+      02-config-server-zipkin-server \
       01-spring-cloud-config-server \
       0-spring-cloud-template \
       ;
