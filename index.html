@@ -572,6 +572,18 @@ bash gradlew clean build
 bash gradlew composeDwown # cleanup</pre>
 </div>
 </div>
+<div class="listingblock">
+<div class="title">config-server</div>
+<div class="content">
+<pre># http :8888/{application}/{profile}[/{label}]
+# http :8888/{application}-{profile}.yml
+# http :8888/{label}/{application}-{profile}.yml
+# http :8888/{application}-{profile}.properties
+# http :8888/{label}/{application}-{profile}.properties
+http :8888/config-server-default.yml
+http :8888/zipkin-server/default</pre>
+</div>
+</div>
 <div class="paragraph">
 <p>links:</p>
 </div>
