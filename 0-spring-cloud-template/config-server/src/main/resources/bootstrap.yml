@@ -5,3 +5,4 @@ spring:
         git:
           uri: https://github.com/daggerok/spring-cloud-examples
           search-paths: 0-spring-cloud-template/config-server/spring-config-repository
+          force-pull: true

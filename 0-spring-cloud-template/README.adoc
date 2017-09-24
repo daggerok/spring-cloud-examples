@@ -11,6 +11,17 @@ bash gradlew clean build
 bash gradlew composeDwown # cleanup
 ----
 
+.config-server
+[sources,bash]
+----
+http :8888/{application}/{profile}[/{label}]
+http :8888/{application}-{profile}.yml
+http :8888/{label}/{application}-{profile}.yml
+http :8888/{application}-{profile}.properties
+http :8888/{label}/{application}-{profile}.properties
+----
+
+
 links:
 
 . link:http://cloud.spring.io/spring-cloud-vault/1.0.2.RELEASE/[spring-cloud-vault documentation]
