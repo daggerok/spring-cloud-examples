@@ -662,6 +662,27 @@ http :8888/config-server-default.yml
 http :8888/config-server/default</pre>
 </div>
 </div>
+<div class="listingblock">
+<div class="title">vault using REST API</div>
+<div class="content">
+<pre>http :8200/v1/sys/health                                                                                        09:07:00
+HTTP/1.1 200 OK
+Cache-Control: no-store
+Content-Length: 182
+Content-Type: application/json
+Date: Sun, 24 Sep 2017 06:07:03 GMT
+
+{
+    "cluster_id": "55c792d9-e39b-15ca-d13a-1942240d5a5f",
+    "cluster_name": "vault-cluster",
+    "initialized": true,
+    "sealed": false,
+    "server_time_utc": 1506233223,
+    "standby": false,
+    "version": "0.8.3"
+}</pre>
+</div>
+</div>
 <div class="paragraph">
 <p>links:</p>
 </div>
