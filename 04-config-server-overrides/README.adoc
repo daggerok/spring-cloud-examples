@@ -1,0 +1,147 @@
+= override in native config-server image:https://travis-ci.org/daggerok/spring-cloud-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-cloud-examples"]
+
+//tag::content[]
+
+Spring Could Config Overrides
+
+.comment overridion
+[sources,yaml]
+----
+# ...  spring.cloud.config.server
+#        overrides:
+#          foo: overridden foo
+----
+
+.bootstrap to test no overrides
+[sources,bash]
+----
+bash gradlew clean assemble composeUp
+----
+
+.get not overridden config
+[sources,bash]
+----
+http :8888/foo-dev.yaml
+foo: baz
+----
+
+.stop
+[sources,bash]
+----
+bash gradlew composeDown
+----
+
+.add overridion
+[sources,yaml]
+----
+# ... spring.cloud.config.server
+        overrides:
+          foo: overridden foo
+----
+
+.bootstrap to test overrides config
+[sources,bash]
+----
+bash gradlew clean assemble composeUp
+----
+
+.get overriden config
+[sources,bash]
+----
+cat config-server/src/main/resources/db/foo-dev.yml
+foo: dev
+
+# but
+http :8888/foo-dev.yaml
+foo: overridden foo
+
+# as well as
+http :8888/db-default.yml|grep foo
+foo: overridden foo
+
+# and
+http :8888/db-notfound.yml|grep foo
+foo: overridden foo
+----
+
+.8888/foo/default
+[sources,json]
+----
+{
+    "label": null,
+    "name": "foo",
+    "profiles": [
+        "default"
+    ],
+    "propertySources": [
+        {
+            "name": "overrides",
+            "source": {
+                "foo": "overridden foo"
+            }
+        },
+        {
+            "name": "classpath:/mq/foo.yml",
+            "source": {
+                "foo": "bar"
+            }
+        },
+        {
+            "name": "classpath:/db/foo.yml",
+            "source": {
+                "foo": "foo"
+            }
+        }
+    ],
+    "state": null,
+    "version": null
+}
+----
+
+.8888/foo/dev
+[sources,json]
+----
+{
+    "label": null,
+    "name": "foo",
+    "profiles": [
+        "dev"
+    ],
+    "propertySources": [
+        {
+            "name": "overrides",
+            "source": {
+                "foo": "overridden foo"
+            }
+        },
+        {
+            "name": "classpath:/mq/foo-dev.yml",
+            "source": {
+                "foo": "baz"
+            }
+        },
+        {
+            "name": "classpath:/db/foo-dev.yml",
+            "source": {
+                "foo": "dev"
+            }
+        },
+        {
+            "name": "classpath:/mq/foo.yml",
+            "source": {
+                "foo": "bar"
+            }
+        },
+        {
+            "name": "classpath:/db/foo.yml",
+            "source": {
+                "foo": "foo"
+            }
+        }
+    ],
+    "state": null,
+    "version": null
+}
+----
+
+//end::content[]

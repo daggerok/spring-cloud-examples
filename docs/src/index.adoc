@@ -29,8 +29,11 @@ include::../../03-config-server-vault/README.adoc[tags=content]
 == ConfigServer native profile
 include::../../04-config-server-native/README.adoc[tags=content]
 
-== Saerch locations in ConfigServer Native
+== Search Locations in ConfigServer Native
 include::../../04-native-search-locations/README.adoc[tags=content]
+
+== Override Spring Cloud Config
+include::../../04-config-server-overrides/README.adoc[tags=content]
 
 == links
 include::includes/Links.adoc[]
