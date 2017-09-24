@@ -1,0 +1,33 @@
+= spring-cloud-config encryption / decryption image:https://travis-ci.org/daggerok/spring-cloud-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-cloud-examples"]
+
+Spring Could Config Server Encryption and Decryption
+
+//tag::content[]
+
+.build, run and test
+[sources,bash]
+----
+bash gradlew clean assemble
+bash gradlew composeUp
+bash gradlew composeDown
+----
+
+.fetch configs from config-server using REST API
+[sources,bash]
+----
+# http :8888/{application}/{profile}[/{label}]
+# http :8888/{application}-{profile}.yml
+# http :8888/{label}/{application}-{profile}.yml
+# http :8888/{application}-{profile}.properties
+# http :8888/{label}/{application}-{profile}.properties
+
+http :8888/config-server-default.properties
+http :8888/config-server-default.yml
+http :8888/config-server/default/
+----
+
+links:
+
+. link:http://cloud.spring.io/spring-cloud-vault/1.0.2.RELEASE/[spring-cloud-vault documentation]
+
+//end::content[]
