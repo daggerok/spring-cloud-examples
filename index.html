@@ -538,14 +538,16 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.4.1,</span>
-<span id="revdate">2017-09-23 17:43:22 EEST</span>
+<span id="revdate">2017-09-24 08:55:19 EEST</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#spring-cloud-boot-template">1. spring-cloud-boot template</a></li>
-<li><a href="#links">2. links</a></li>
-<li><a href="#enjoy">3. Enjoy! :)</a></li>
+<li><a href="#spring-cloud-config-server">1. Spring Cloud Config Server</a></li>
+<li><a href="#configserver-zipkinserver">2. ConfigServer + ZipkinServer</a></li>
+<li><a href="#configserver-vault">3. ConfigServer + Vault</a></li>
+<li><a href="#links">4. links</a></li>
+<li><a href="#enjoy">5. Enjoy! :)</a></li>
 </ul>
 </div>
 </div>
@@ -561,25 +563,64 @@ It&#8217;s contains some spring-cloud playground projects</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-cloud-boot-template">1. spring-cloud-boot template</h2>
+<h2 id="spring-cloud-config-server">1. Spring Cloud Config Server</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">build, run and test</div>
 <div class="content">
 <pre>bash gradlew clean assemble
-bash gradlew composeUp # up infrastructure
-bash gradlew clean build
-bash gradlew composeDwown # cleanup</pre>
+bash gradlew composeUp
+bash gradlew composeDown</pre>
 </div>
 </div>
 <div class="listingblock">
-<div class="title">config-server</div>
+<div class="title">fetch configs from config-server using REST API</div>
 <div class="content">
 <pre># http :8888/{application}/{profile}[/{label}]
 # http :8888/{application}-{profile}.yml
 # http :8888/{label}/{application}-{profile}.yml
 # http :8888/{application}-{profile}.properties
 # http :8888/{label}/{application}-{profile}.properties
+
+http :8888/config-server-default.properties
+http :8888/config-server-default.yml
+http :8888/config-server/default/</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>links:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="http://cloud.spring.io/spring-cloud-vault/1.0.2.RELEASE/">spring-cloud-vault documentation</a></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configserver-zipkinserver">2. ConfigServer + ZipkinServer</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">build, run and test</div>
+<div class="content">
+<pre># up infrastructure
+bash gradlew clean assemble composeUp
+# cleanup
+bash gradlew composeDwown</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">testing services</div>
+<div class="content">
+<pre># http :8888/{application}/{profile}[/{label}]
+# http :8888/{application}-{profile}.yml
+# http :8888/{label}/{application}-{profile}.yml
+# http :8888/{application}-{profile}.properties
+# http :8888/{label}/{application}-{profile}.properties
+
+http :8888/config-server-default.properties
 http :8888/config-server-default.yml
 http :8888/zipkin-server/default</pre>
 </div>
@@ -597,7 +638,44 @@ http :8888/zipkin-server/default</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="links">2. links</h2>
+<h2 id="configserver-vault">3. ConfigServer + Vault</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="title">build, run and test</div>
+<div class="content">
+<pre>bash gradlew clean assemble
+bash gradlew composeUp
+bash gradlew composeDown</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">fetch configs from config-server using REST API</div>
+<div class="content">
+<pre># http :8888/{application}/{profile}[/{label}]
+# http :8888/{application}-{profile}.yml
+# http :8888/{label}/{application}-{profile}.yml
+# http :8888/{application}-{profile}.properties
+# http :8888/{label}/{application}-{profile}.properties
+
+http :8888/config-server-default.properties
+http :8888/config-server-default.yml
+http :8888/config-server/default</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>links:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="http://cloud.spring.io/spring-cloud-vault/1.0.2.RELEASE/">spring-cloud-vault documentation</a></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="links">4. links</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -609,7 +687,7 @@ http :8888/zipkin-server/default</pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="enjoy">3. Enjoy! :)</h2>
+<h2 id="enjoy">5. Enjoy! :)</h2>
 <div class="sectionbody">
 
 </div>
@@ -618,7 +696,7 @@ http :8888/zipkin-server/default</pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.4.1<br>
-Last updated 2017-09-23 17:43:22 EEST
+Last updated 2017-09-24 08:55:19 EEST
 </div>
 </div>
 </body>
