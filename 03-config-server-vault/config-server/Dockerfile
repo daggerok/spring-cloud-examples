@@ -7,5 +7,5 @@ WORKDIR /opt/app
 VOLUME ["/opt/app"]
 ENTRYPOINT ["java", "-jar", "/opt/app/app.jar"]
 EXPOSE 8888
-HEALTHCHECK --interval=15s --timeout=15s --retries=20 CMD curl -f http://127.0.0.1:8888/health || exit 1
+HEALTHCHECK --interval=5s --timeout=5s --retries=5 CMD curl -f http://127.0.0.1:8888/health || exit 1
 COPY ./build/libs/config-server-0.0.1.jar ./app.jar
