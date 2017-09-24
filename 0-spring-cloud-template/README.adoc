@@ -14,11 +14,14 @@ bash gradlew composeDwown # cleanup
 .config-server
 [sources,bash]
 ----
-http :8888/{application}/{profile}[/{label}]
-http :8888/{application}-{profile}.yml
-http :8888/{label}/{application}-{profile}.yml
-http :8888/{application}-{profile}.properties
-http :8888/{label}/{application}-{profile}.properties
+# http :8888/{application}/{profile}[/{label}]
+# http :8888/{application}-{profile}.yml
+# http :8888/{label}/{application}-{profile}.yml
+# http :8888/{application}-{profile}.properties
+# http :8888/{label}/{application}-{profile}.properties
+http :8888/config-server-default.yml
+http :8888/config-server-cloud.yml
+http :8888/config-server/cloud
 ----
 
 
