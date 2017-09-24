@@ -538,7 +538,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.4.1,</span>
-<span id="revdate">2017-09-24 23:27:10 EEST</span>
+<span id="revdate">2017-09-24 23:45:21 EEST</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -554,9 +554,10 @@ table.CodeRay td.code>pre{padding:0}
 </ul>
 </li>
 <li><a href="#configserver-native-profile">5. ConfigServer native profile</a></li>
-<li><a href="#saerch-locations-in-configserver-native">6. Saerch locations in ConfigServer Native</a></li>
-<li><a href="#links-2">7. links</a></li>
-<li><a href="#enjoy">8. Enjoy! :)</a></li>
+<li><a href="#search-locations-in-configserver-native">6. Search locations in ConfigServer Native</a></li>
+<li><a href="#search-locations-in-configserver-native-2">7. Search locations in ConfigServer Native</a></li>
+<li><a href="#links-2">8. links</a></li>
+<li><a href="#enjoy">9. Enjoy! :)</a></li>
 </ul>
 </div>
 </div>
@@ -1074,7 +1075,7 @@ mq:
 </div>
 </div>
 <div class="sect1">
-<h2 id="saerch-locations-in-configserver-native">6. Saerch locations in ConfigServer Native</h2>
+<h2 id="search-locations-in-configserver-native">6. Search locations in ConfigServer Native</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Search locations for Spring Could Config Server Native</p>
@@ -1205,6 +1206,21 @@ mq:
 </div>
 </div>
 <div class="listingblock">
+<div class="title">also JSON is possible too (8888/mq-dev.json)</div>
+<div class="content">
+<pre>{
+    "mq": {
+        "password": "guest",
+        "server": {
+            "host": "127.0.0.1",
+            "port": 5672
+        },
+        "username": "guest"
+    }
+}</pre>
+</div>
+</div>
+<div class="listingblock">
 <div class="title">possible variants</div>
 <div class="content">
 <pre># http :8888/{application}/{profile}[/{label}]
@@ -1217,7 +1233,155 @@ mq:
 </div>
 </div>
 <div class="sect1">
-<h2 id="links-2">7. links</h2>
+<h2 id="search-locations-in-configserver-native-2">7. Search locations in ConfigServer Native</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Spring Could Config Overrides</p>
+</div>
+<div class="listingblock">
+<div class="title">comment overridion</div>
+<div class="content">
+<pre># ...  spring.cloud.config.server
+#        overrides:
+#          foo: overridden foo</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">bootstrap to test no overrides</div>
+<div class="content">
+<pre>bash gradlew clean assemble composeUp</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">get not overridden config</div>
+<div class="content">
+<pre>http :8888/foo-dev.yaml
+foo: baz</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">stop</div>
+<div class="content">
+<pre>bash gradlew composeDown</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">add overridion</div>
+<div class="content">
+<pre># ... spring.cloud.config.server
+        overrides:
+          foo: overridden foo</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">bootstrap to test overrides config</div>
+<div class="content">
+<pre>bash gradlew clean assemble composeUp</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">get overriden config</div>
+<div class="content">
+<pre>cat config-server/src/main/resources/db/foo-dev.yml
+foo: dev
+
+# but
+http :8888/foo-dev.yaml
+foo: overridden foo
+
+# as well as
+http :8888/db-default.yml|grep foo
+foo: overridden foo
+
+# and
+http :8888/db-notfound.yml|grep foo
+foo: overridden foo</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">8888/foo/default</div>
+<div class="content">
+<pre>{
+    "label": null,
+    "name": "foo",
+    "profiles": [
+        "default"
+    ],
+    "propertySources": [
+        {
+            "name": "overrides",
+            "source": {
+                "foo": "overridden foo"
+            }
+        },
+        {
+            "name": "classpath:/mq/foo.yml",
+            "source": {
+                "foo": "bar"
+            }
+        },
+        {
+            "name": "classpath:/db/foo.yml",
+            "source": {
+                "foo": "foo"
+            }
+        }
+    ],
+    "state": null,
+    "version": null
+}</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">8888/foo/dev</div>
+<div class="content">
+<pre>{
+    "label": null,
+    "name": "foo",
+    "profiles": [
+        "dev"
+    ],
+    "propertySources": [
+        {
+            "name": "overrides",
+            "source": {
+                "foo": "overridden foo"
+            }
+        },
+        {
+            "name": "classpath:/mq/foo-dev.yml",
+            "source": {
+                "foo": "baz"
+            }
+        },
+        {
+            "name": "classpath:/db/foo-dev.yml",
+            "source": {
+                "foo": "dev"
+            }
+        },
+        {
+            "name": "classpath:/mq/foo.yml",
+            "source": {
+                "foo": "bar"
+            }
+        },
+        {
+            "name": "classpath:/db/foo.yml",
+            "source": {
+                "foo": "foo"
+            }
+        }
+    ],
+    "state": null,
+    "version": null
+}</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="links-2">8. links</h2>
 <div class="sectionbody">
 <div class="olist arabic">
 <ol class="arabic">
@@ -1229,7 +1393,7 @@ mq:
 </div>
 </div>
 <div class="sect1">
-<h2 id="enjoy">8. Enjoy! :)</h2>
+<h2 id="enjoy">9. Enjoy! :)</h2>
 <div class="sectionbody">
 
 </div>
@@ -1238,7 +1402,7 @@ mq:
 <div id="footer">
 <div id="footer-text">
 Version 0.4.1<br>
-Last updated 2017-09-24 23:27:10 EEST
+Last updated 2017-09-24 23:45:21 EEST
 </div>
 </div>
 </body>
