@@ -34,6 +34,7 @@ script:
   - >
     for path in \
       05-config-server-encryption-decryption \
+      04-native-search-locations \
       04-config-server-native \
       03-config-server-vault \
       02-config-server-zipkin-server \

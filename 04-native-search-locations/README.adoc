@@ -1,0 +1,143 @@
+= search locations for native config-server image:https://travis-ci.org/daggerok/spring-cloud-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-cloud-examples"]
+
+//tag::content[]
+
+Search locations for Spring Could Config Server Native
+
+.important
+[sources,yaml]
+----
+spring:
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: >
+            classpath:/config,
+            classpath:/db,
+            classpath:/mq
+
+----
+
+.build, run and test
+[sources,bash]
+----
+bash gradlew clean assemble composeUp
+# do some..
+bash gradlew composeDown
+----
+
+.def default db app configs
+[sources,bash]
+----
+http :8888/db/default
+HTTP/1.1 200
+Content-Type: application/json;charset=UTF-8
+Date: Sun, 24 Sep 2017 20:10:22 GMT
+Transfer-Encoding: chunked
+X-Application-Context: application:native,rabbitmq:8888
+
+{
+    "label": null,
+    "name": "db",
+    "profiles": [
+        "default"
+    ],
+    "propertySources": [
+        {
+            "name": "classpath:/db/db.yml",
+            "source": {
+                "db.name": "${$DB_NAME:postgres}",
+                "db.password": "${$DB_PASSWORD:postgres}",
+                "db.server.host": "${$DB_SERVER_HOST:0.0.0.0}",
+                "db.server.port": "${$DB_SERVER_PORT:5432}",
+                "db.username": "${$DB_USERNAME:postgres}"
+            }
+        }
+    ],
+    "state": null,
+    "version": null
+}
+----
+
+.get db app dev profile configs
+[sources,bash]
+----
+http :8888/db/dev
+HTTP/1.1 200
+Content-Type: application/json;charset=UTF-8
+Date: Sun, 24 Sep 2017 20:11:33 GMT
+Transfer-Encoding: chunked
+X-Application-Context: application:native,rabbitmq:8888
+
+{
+    "label": null,
+    "name": "db",
+    "profiles": [
+        "dev"
+    ],
+    "propertySources": [
+        {
+            "name": "classpath:/db/db-dev.yml",
+            "source": {
+                "db.name": "postgres",
+                "db.password": "postgres",
+                "db.server.host": "127.0.0.1",
+                "db.server.port": 5432,
+                "db.username": "postgres"
+            }
+        },
+        {
+            "name": "classpath:/db/db.yml",
+            "source": {
+                "db.name": "${$DB_NAME:postgres}",
+                "db.password": "${$DB_PASSWORD:postgres}",
+                "db.server.host": "${$DB_SERVER_HOST:0.0.0.0}",
+                "db.server.port": "${$DB_SERVER_PORT:5432}",
+                "db.username": "${$DB_USERNAME:postgres}"
+            }
+        }
+    ],
+    "state": null,
+    "version": null
+}
+----
+
+.db-dev.properties config file
+[sources,properties]
+----
+# $ http :8888/db-dev.properties
+# skip http metadata ...
+db.name: postgres
+db.password: postgres
+db.server.host: 127.0.0.1
+db.server.port: 5432
+db.username: postgres
+----
+
+.mq-dev.yaml config file
+[sources,yml]
+----
+# $ http :8888/mq-dev.yaml
+# skip http metadata ...
+mq:
+  password: guest
+  server:
+    host: 127.0.0.1
+    port: 5672
+  username: guest
+----
+
+.possible variants
+[sources,bash]
+----
+# http :8888/{application}/{profile}[/{label}]
+# http :8888/{application}-{profile}.yml
+# http :8888/{label}/{application}-{profile}.yml
+# http :8888/{application}-{profile}.properties
+# http :8888/{label}/{application}-{profile}.properties
+----
+
+//end::content[]

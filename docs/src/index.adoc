@@ -26,6 +26,9 @@ include::../../03-config-server-vault/README.adoc[tags=content]
 == ConfigServer native profile
 include::../../04-config-server-native/README.adoc[tags=content]
 
+== Saerch locations in ConfigServer Native
+include::../../04-native-search-locations/README.adoc[tags=content]
+
 == ConfigServer encryption / decryption
 include::../../05-config-server-encryption-decryption/README.adoc[tags=content]
 
