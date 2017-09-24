@@ -130,6 +130,21 @@ mq:
   username: guest
 ----
 
+.also JSON is possible too (8888/mq-dev.json)
+[sources,json]
+----
+{
+    "mq": {
+        "password": "guest",
+        "server": {
+            "host": "127.0.0.1",
+            "port": 5672
+        },
+        "username": "guest"
+    }
+}
+----
+
 .possible variants
 [sources,bash]
 ----
