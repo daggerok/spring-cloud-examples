@@ -1,0 +1,23 @@
+= spring-examples {project-name} ({project-version}) image:https://travis-ci.org/daggerok/spring-cloud-examples.svg?branch=master["Build Status", link={github_url}]
+Maksim Kostromin <daggerok@gmail.com>
+{docdatetime}
+:toc:
+:revnumber: {project-version}
+:example-caption!:
+:icons: font
+:toc: left
+:numbered:
+:github_url: https://github.com/daggerok/spring-cloud-examples
+:github_branch_prefix: {github_url}/tree
+
+[discrete]
+== Introduction
+include::includes/Introduction.adoc[]
+
+== spring-cloud-boot template
+include::../../0-spring-cloud-template/README.adoc[tags=content]
+
+== links
+include::includes/Links.adoc[]
+
+== Enjoy! :)

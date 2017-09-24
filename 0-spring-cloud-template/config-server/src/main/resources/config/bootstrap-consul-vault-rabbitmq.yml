@@ -1,0 +1,160 @@
+spring:
+  cloud:
+    vault:
+      # sets the hostname of the Vault host. The host name will be used for SSL certificate validation
+      host: 0.0.0.0
+      # sets the Vault port
+      port: 8200
+      # setting the scheme to http will use plain HTTP. Supported schemes are http and https
+      scheme: http
+      # sets the connection timeout in milliseconds
+      connection-timeout: 5000
+      # sets the read timeout in milliseconds
+      read-timeout: 15000
+      config:
+        # sets the order for the property source
+        order: -10
+        # set spring.cloud.vault.config.lifecycle.enabled to false to disable lease renewal and revocation.
+        # This is not recommended as leases can expire and Spring Cloud Vault cannot longer access Vault or services
+        # using generated credentials and valid credentials remain active after application shutdown
+        lifecycle:
+          enabled: true
+
+      # sets Vault token (dev). Static tokens are not renewed or revoked.
+      #
+      # Authentication
+      # Consider carefully your security requirements. Static token authentication is fine if you want quickly get
+      # started with Vault, but a static token is not protected any further. Any disclosure to unintended parties
+      # allows Vault use with the associated token roles.
+      token: spring-cloud-examples-vault-token
+
+      # setting this value to TOKEN selects the Token authentication method
+      #
+      # Authentication methods (possible are: TOKEN, APPID, APPROLE, AWS_EC2, CERT, CUBBYHOLE)
+      # Token authentication is the default authentication method. If a token is disclosed an unintended party gains
+      # access to Vault and can access secrets for the intended client.
+      authentication: TOKEN
+
+      ## AppId authentication
+      ## see https://www.vaultproject.io/docs/auth/app-id.html
+      ## app-id-path sets the path of the AppId mount to use
+      #authentication: APPID
+
+      ## user-id sets the UserId method. Possible values are IP_ADDRESS, MAC_ADDRESS or a class name implementing a
+      ## custom AppIdUserIdMechanism
+
+      ## IP_ADDRESS
+      ## user-id generate for osx:
+      ## echo -n 192.168.99.100 | shasum
+      ## user-id generate for osx:
+      ## echo -n 192.168.99.100 | sha256sum
+      #app-id:
+      #  user-id: IP_ADDRESS
+
+      ## MAC_ADDRESS
+      ## user-id generate for osx:
+      ## echo -n 0AFEDE1234AC | shasum
+      ## user-id generate for osx:
+      ## echo -n 0AFEDE1234AC | sha256sum
+      #app-id:
+      #  user-id: MAC_ADDRESS
+      #  network-interface: eth0
+
+      ## Custom UserId
+      ## public class MyCustomUserIdMechanism implements AppIdUserIdMechanism {
+      ##   @Override
+      ##   public String createUserId() {
+      ##     String userId = ...
+      ##     return userId;
+      ##   }
+      ## }
+      #app-id:
+      #  user-id: daggerok.MyCustomUserIdMechanism
+
+      ## TLS certificate authentication
+      ##
+      #authentication: CERT
+      #ssl:
+      #  key-store: classpath:keystore.jks
+      #  key-store-password: changeit
+      #  cert-auth-path: cert
+
+      # Secret Backends
+      application-name: ${spring.application.name}
+      # Generic Backend
+      generic:
+        # setting this value to false disables the secret backend config usage
+        enabled: true
+        # sets the path of the secret mount to use
+        backend: secret
+        # separates the profile name from the context in property sources with profiles
+        profile-separator: '/'
+        # sets the context name used by all applications
+        default-context: application
+        # overrides the application name for use in the generic backend
+        application-name: ${spring.cloud.vault.application-name}
+
+      # consul
+      consul:
+        # setting this value to true enables the Consul backend config usage
+        enabled: true
+        # sets the role name of the Consul role definition
+        role: readonly
+        # sets the path of the Consul mount to use
+        backend: consul
+        # sets the property name in which the Consul ACL token is stored
+        token-property: spring.cloud.consul.token
+
+      rabbitmq:
+        # setting this value to true enables the RabbitMQ backend config usage
+        enabled: true
+        # sets the role name of the RabbitMQ role definition
+        role: readonly
+        # sets the path of the RabbitMQ mount to use
+        backend: rabbitmq
+        # sets the property name in which the RabbitMQ username is stored
+        username-property: spring.rabbitmq.username
+        # sets the property name in which the RabbitMQ password is stored
+        password-property: spring.rabbitmq.password
+
+      #mongodb:
+      #  # setting this value to true enables the MongodB backend config usage
+      #  enabled: true
+      #  # sets the role name of the MongoDB role definition
+      #  role: readonly
+      #  # sets the path of the MongoDB mount to use
+      #  backend: mongodb
+      #  # sets the property name in which the MongoDB username is stored
+      #  username-property: spring.data.mongodb.username
+      #  # sets the property name in which the MongoDB password is stored
+      #  password-property: spring.data.mongodb.password
+
+      #postgresql:
+      #  # setting this value to true enables the PostgreSQL backend config usage
+      #  enabled: true
+      #  # sets the role name of the PostgreSQL role definition
+      #  role: readonly
+      #  # sets the path of the PostgreSQL mount to use
+      #  backend: postgresql
+      #  # sets the property name in which the PostgreSQL username is stored
+      #  username-property: spring.datasource.username
+      #  # sets the property name in which the PostgreSQL password is stored
+      #  password-property: spring.datasource.password
+
+      ## Vault Client Fail Fast
+      #fail-fast: true
+
+  consul:
+    host: 0.0.0.0
+    port: 8500
+    discovery:
+      healthCheckPath: ${management.context-path}/health
+      healthCheckInterval: 15s
+      #tags: foo=bar, baz
+      instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+
+  rabbitmq:
+    host: 0.0.0.0
+    port: 5672
+    username: guest
+    password: guest

@@ -1,0 +1,64 @@
+version: "2.1"
+services:
+  rabbitmq:
+    restart: unless-stopped
+    build: ../../rabbitmq
+    volumes:
+      - "rabbitmq-data:/var/lib/rabbitmq"
+      - "rabbitmq-data:/etc/rabbitmq"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks: [backing-services]
+  config-server:
+    restart: unless-stopped
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    image: openjdk:8u131-jre-alpine
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+    volumes:
+      - "config-server-data:/var"
+      - "../../config-server/build/libs/config-server-0.0.1.jar:/var/app.jar:Z"
+    command: java -jar /var/app.jar
+    ports:
+      - "8888:8888"
+    # health check for that particular (openjdk:8u131-jre-alpine) image by main listening port (8888)
+    healthcheck:
+      test: ["CMD-SHELL", "netstat -ltnpw|grep ':8888'| wc -l"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+    networks: [backing-services]
+  zipkin-server:
+    restart: unless-stopped
+    depends_on:
+      config-server:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    image: openjdk:8u131-jre-alpine
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      SPRING_RABBITMQ_HOST: rabbitmq
+    volumes:
+      - "zipkin-server-data:/var"
+      - "../../zipkin-server/build/libs/zipkin-server-0.0.1.jar:/var/app.jar:Z"
+    command: sh -c "sleep 60 && java -jar /var/app.jar"
+    ports:
+      - "9411:9411"
+    # health check for that particular (openjdk:8u131-jre-alpine) image by main listening port (9411)
+    healthcheck:
+      test: ["CMD-SHELL", "netstat -ltnpw|grep ':9411'| wc -l"]
+      interval: 90s
+      timeout: 90s
+      retries: 5
+    networks: [backing-services]
+volumes:
+  rabbitmq-data: {}
+  config-server-data: {}
+  zipkin-server-data: {}
+networks:
+  backing-services:
+    driver: bridge

@@ -1,0 +1,11 @@
+= spring-cloud-examples image:https://travis-ci.org/daggerok/spring-cloud-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-cloud-examples"]
+
+This repository contains some spring-cloud playground projects
+
+. link:0-spring-cloud-template/[Bootstrap template]
+
+.publish documentation to GitHub Pages
+[sources,bash]
+----
+./gradlew clean gitPublishPush
+----

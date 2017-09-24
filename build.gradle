@@ -1,0 +1,9 @@
+plugins {
+  id "idea"
+  id "eclipse"
+}
+
+wrapper {
+  gradleVersion = "4.2"
+  distributionType = "ALL"
+}
