@@ -15,7 +15,7 @@ Maksim Kostromin <daggerok@gmail.com>
 include::includes/Introduction.adoc[]
 
 == ConfigServer
-include::../../01-spring-cloud-config/README.adoc[tags=content]
+include::../../01-spring-cloud-config-server/README.adoc[tags=content]
 
 == ConfigServer encryption / decryption
 include::../../01-config-server-encryption-decryption/README.adoc[tags=content]

@@ -7,7 +7,7 @@ spring:
       server:
         git:
           uri: https://github.com/daggerok/spring-cloud-examples
-          search-paths: 01-spring-cloud-config/config-server/spring-config-repository
+          search-paths: 01-spring-cloud-config-server/config-server/spring-config-repository
           force-pull: true
 app:
   foo: bar
