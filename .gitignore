@@ -1,3 +1,4 @@
+spring-cloud-dataflow-server-kubernetes/
 hidden-*
 .gradle/
 build/

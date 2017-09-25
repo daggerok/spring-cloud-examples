@@ -1,0 +1,165 @@
+= 06-spring-cloud-dataflow-kubernetes image:https://travis-ci.org/daggerok/spring-cloud-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-cloud-examples"]
+
+//tag::content[]
+
+=== Deploy Dataflow Server on Kubernetes
+
+.bootstrap minikube
+----
+minikube start --cpus=4 --memory=4096
+----
+
+.clone repo with scripts
+----
+git clone https://github.com/spring-cloud/spring-cloud-dataflow-server-kubernetes
+cd spring-cloud-dataflow-server-kubernetes
+git checkout master
+----
+
+.create rabbitmq service
+----
+kubectl create -f src/kubernetes/rabbitmq/
+----
+
+.verify
+----
+kubectl get all -l app=rabbitmq
+----
+
+.mysql
+----
+kubectl create -f src/kubernetes/mysql/
+kubectl get all -l app=mysql
+----
+
+.redis
+----
+kubectl create -f src/kubernetes/redis/
+kubectl get all -l app=redis
+----
+
+.metrics
+----
+kubectl create -f src/kubernetes/metrics/metrics-deployment-rabbit.yaml
+kubectl create -f src/kubernetes/metrics/metrics-svc.yaml
+kubectl get all -l app=metrics
+----
+
+.spring cloud flow server
+----
+kubectl create -f src/kubernetes/server/server-config-rabbit.yaml
+kubectl create -f src/kubernetes/server/server-svc.yaml
+kubectl create -f src/kubernetes/server/server-deployment.yaml
+kubectl get all -l app=scdf-server
+kubectl get svc scdf-server -w
+minikube service --url scdf-server
+http://192.168.99.100:31336
+----
+
+=== Dataflow Shell
+
+----
+wget http://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-shell/1.3.0.BUILD-SNAPSHOT/spring-cloud-dataflow-shell-1.3.0.BUILD-SNAPSHOT.jar
+java -jar spring-cloud-dataflow-shell-1.3.0.BUILD-SNAPSHOT.jar
+----
+
+.Spring Cloud Data Flow shell
+----
+  ____                              ____ _                __
+ / ___| _ __  _ __(_)_ __   __ _   / ___| | ___  _   _  __| |
+ \___ \| '_ \| '__| | '_ \ / _` | | |   | |/ _ \| | | |/ _` |
+  ___) | |_) | |  | | | | | (_| | | |___| | (_) | |_| | (_| |
+ |____/| .__/|_|  |_|_| |_|\__, |  \____|_|\___/ \__,_|\__,_|
+  ____ |_|    _          __|___/                 __________
+ |  _ \  __ _| |_ __ _  |  ___| | _____      __  \ \ \ \ \ \
+ | | | |/ _` | __/ _` | | |_  | |/ _ \ \ /\ / /   \ \ \ \ \ \
+ | |_| | (_| | || (_| | |  _| | | (_) \ V  V /    / / / / / /
+ |____/ \__,_|\__\__,_| |_|   |_|\___/ \_/\_/    /_/_/_/_/_/
+
+1.3.0.BUILD-SNAPSHOT
+
+Welcome to the Spring Cloud Data Flow shell. For assistance hit TAB or type "help".
+server-unknown:>
+----
+
+.Configure the Data Flow server URI
+----
+server-unknown:>dataflow config server --username user --password password --uri http://192.168.99.100:31336
+Successfully targeted http://192.168.99.100:31336
+----
+
+.Register the Docker with Rabbit binder versions of the time and log apps using the shell
+----
+dataflow:>app register --type source --name time --uri docker://springcloudstream/time-source-rabbit:1.2.0.RELEASE --metadata-uri maven://org.springframework.cloud.stream.app:time-source-rabbit:jar:metadata:1.2.0.RELEASE
+Successfully registered application 'source:time'
+
+dataflow:>app register --type sink --name log --uri docker://springcloudstream/log-sink-rabbit:1.2.0.RELEASE --metadata-uri maven://org.springframework.cloud.stream.app:log-sink-rabbit:jar:metadata:1.2.0.RELEASE
+Successfully registered application 'sink:log'
+----
+
+.register all out-of-the-box stream applications built with the Rabbit binder in bulk
+----
+dataflow:>app import --uri http://repo.spring.io/libs-snapshot-local/org/springframework/cloud/stream/app/spring-cloud-stream-app-descriptor/1.0.0.BUILD-SNAPSHOT/spring-cloud-stream-app-descriptor-1.0.0.BUILD-SNAPSHOT.stream-apps-rabbit-docker
+Successfully registered applications: [source.tcp, sink.jdbc, source.http, sink.rabbit, source.rabbit, source.ftp, sink.gpfdist, processor.transform, source.loggregator, source.sftp, processor.filter, sink.cassandra, processor.groovy-filter, sink.router, source.trigger, sink.hdfs-dataset, processor.splitter, source.load-generator, processor.tcp-client, source.time, source.gemfire, source.twitterstream, sink.tcp, source.jdbc, sink.field-value-counter, sink.redis-pubsub, sink.hdfs, processor.bridge, processor.pmml, processor.httpclient, source.s3, sink.ftp, sink.log, sink.gemfire, sink.aggregate-counter, sink.throughput, source.triggertask, sink.s3, source.gemfire-cq, source.jms, source.tcp-client, processor.scriptable-transform, sink.counter, sink.websocket, source.mongodb, source.mail, processor.groovy-transform, source.syslog]
+----
+
+in short: `app import --uri http://bit.ly/stream-applications-rabbit-docker`
+
+.Deploy a simple stream in the shell
+----
+dataflow:>stream create --name ticktock --definition "time | log" --deploy
+Created new stream 'ticktock'
+Deployment request has been sent
+----
+
+.use `!kubectl get pods` command to check on the state of the pods corresponding to this stream from the shell by running it as an OS command by adding a "!" before the command.
+----
+dataflow:>! kubectl get pods -l role=spring-app -w
+command is:kubectl get pods -l role=spring-app
+NAME                              READY     STATUS    RESTARTS   AGE
+ticktock-log-0-2151959627-vnhw2   0/1       Running   0          2m
+ticktock-time-574236635-j7vrh     0/1       Running   0          2m
+ticktock-log-0-2151959627-vnhw2   1/1       Running   0          2m
+ticktock-time-574236635-j7vrh     1/1       Running   0          2m
+----
+
+.check service logs
+----
+server-unknown:>! kubectl logs ticktock-log-0-2151959627-vnhw2
+command is:kubectl logs ticktock-log-0-2151959627-vnhw2
+2017-09-25 00:25:50.871  INFO 1 --- [           main] # ...skipped
+----
+
+=== Accessing app from outside the cluster
+
+If your cluster doesn’t support external load balancers, like the Minikube, then you must use the NodePort approach.
+You can use deployment properties for configuring the access. Use `deployer.http.kubernetes.createLoadBalancer=true`
+for the app to specify that you want to have a LoadBalancer with an external IP address created for your app’s service.
+For the NodePort configuration use `deployer.http.kubernetes.createNodePort=<port>`
+where <port> should be a number between 30000 and 32767.
+
+=== UI
+
+.go to UI - user / password
+----
+open $(minikube service --url scdf-server)
+----
+
+=== cleanup
+
+.cleanup
+----
+kubectl delete all,cm -l app=scdf-server
+kubectl delete all -l app=metrics
+kubectl delete all -l app=redis
+kubectl delete all -l app=mysql
+kubectl delete all -l app=rabbitmq
+minikube stop
+minikube delete
+----
+
+links:
+
+. link:https://docs.spring.io/spring-cloud-dataflow-server-kubernetes/docs/current-SNAPSHOT/reference/htmlsingle/[spring documentation]
+
+//END::content[]

@@ -38,6 +38,9 @@ include::../../04-config-server-overrides/README.adoc[tags=content]
 == Spring Cloud Task
 include::../../05-spring-cloud-task/README.adoc[tags=content]
 
+== Spring Cloud Dataflow Kubernetes
+include::../../06-spring-cloud-dataflow-kubernetes/README.adoc[tags=content]
+
 == links
 include::includes/Links.adoc[]
 
