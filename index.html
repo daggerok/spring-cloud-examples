@@ -560,9 +560,11 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#spring-cloud-task">8. Spring Cloud Task</a></li>
 <li><a href="#spring-cloud-dataflow-kubernetes">9. Spring Cloud Dataflow Kubernetes</a>
 <ul class="sectlevel2">
-<li><a href="#accessing-app-from-outside-the-cluster">9.1. Accessing app from outside the cluster</a></li>
-<li><a href="#ui">9.2. UI</a></li>
-<li><a href="#cleanup">9.3. cleanup</a></li>
+<li><a href="#deploy-dataflow-server-on-kubernetes">9.1. Deploy Dataflow Server on Kubernetes</a></li>
+<li><a href="#dataflow-shell">9.2. Dataflow Shell</a></li>
+<li><a href="#accessing-app-from-outside-the-cluster">9.3. Accessing app from outside the cluster</a></li>
+<li><a href="#ui">9.4. UI</a></li>
+<li><a href="#cleanup">9.5. cleanup</a></li>
 </ul>
 </li>
 <li><a href="#links-2">10. links</a></li>
@@ -1481,6 +1483,8 @@ bash gradlew composeDown</pre>
 <div class="sect1">
 <h2 id="spring-cloud-dataflow-kubernetes">9. Spring Cloud Dataflow Kubernetes</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="deploy-dataflow-server-on-kubernetes">9.1. Deploy Dataflow Server on Kubernetes</h3>
 <div class="listingblock">
 <div class="title">bootstrap minikube</div>
 <div class="content">
@@ -1541,6 +1545,9 @@ minikube service --url scdf-server
 http://192.168.99.100:31336</pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="dataflow-shell">9.2. Dataflow Shell</h3>
 <div class="listingblock">
 <div class="content">
 <pre>wget http://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-shell/1.3.0.BUILD-SNAPSHOT/spring-cloud-dataflow-shell-1.3.0.BUILD-SNAPSHOT.jar
@@ -1622,8 +1629,9 @@ command is:kubectl logs ticktock-log-0-2151959627-vnhw2
 2017-09-25 00:25:50.871  INFO 1 --- [           main] # ...skipped</pre>
 </div>
 </div>
+</div>
 <div class="sect2">
-<h3 id="accessing-app-from-outside-the-cluster">9.1. Accessing app from outside the cluster</h3>
+<h3 id="accessing-app-from-outside-the-cluster">9.3. Accessing app from outside the cluster</h3>
 <div class="paragraph">
 <p>If your cluster doesn’t support external load balancers, like the Minikube, then you must use the NodePort approach.
 You can use deployment properties for configuring the access. Use <code>deployer.http.kubernetes.createLoadBalancer=true</code>
@@ -1633,7 +1641,7 @@ where &lt;port&gt; should be a number between 30000 and 32767.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="ui">9.2. UI</h3>
+<h3 id="ui">9.4. UI</h3>
 <div class="listingblock">
 <div class="title">go to UI - user / password</div>
 <div class="content">
@@ -1642,7 +1650,7 @@ where &lt;port&gt; should be a number between 30000 and 32767.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="cleanup">9.3. cleanup</h3>
+<h3 id="cleanup">9.5. cleanup</h3>
 <div class="listingblock">
 <div class="title">cleanup</div>
 <div class="content">
