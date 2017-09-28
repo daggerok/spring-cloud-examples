@@ -1,0 +1,18 @@
+= spring-cloud-stream image:https://travis-ci.org/daggerok/spring-cloud-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-cloud-examples"]
+
+//tag::content[]
+
+Spring Could Stream
+
+.build, run and test
+[sources,bash]
+----
+bash gradlew clean assemble composeUp
+bash gradlew composeDown
+----
+
+links:
+
+. link:https://www.brighttalk.com/webcast/14893/275769?utm_campaign=communication_missed_you&utm_medium=email&utm_source=brighttalk-transact&utm_content=webcast[Building Event-Driven Systems with Spring Cloud Stream]
+
+//end::content[]

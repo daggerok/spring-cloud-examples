@@ -1,0 +1,4 @@
+//include "docker:config-rabbitmq"
+include "docker:simple-task-rabbitmq"
+//include "docker:rabbitmq"
+include "spring-cloud-simple-task"

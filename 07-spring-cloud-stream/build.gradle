@@ -1,0 +1,69 @@
+buildscript {
+  ext {
+    springBootVersion = "1.5.7.RELEASE"
+    springCloudVersion = "Dalston.SR3"
+    springCloudTaskVersion = "1.2.1.RELEASE"
+  }
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+  }
+}
+
+plugins {
+  id "idea"
+  id "eclipse"
+}
+
+allprojects {
+
+  apply plugin: "java"
+
+  group = "daggerok"
+  version = "0.0.1"
+  sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+
+  repositories {
+    mavenCentral()
+  }
+}
+
+subprojects {
+
+  if (isDocker(project.projectDir.absolutePath)) return
+
+  apply plugin: "org.springframework.boot"
+
+  dependencies {
+    compile("org.springframework.cloud:spring-cloud-starter")
+
+    compile("org.springframework.boot:spring-boot-starter-amqp")
+    compile("org.springframework.cloud:spring-cloud-starter-bus-amqp")
+    compile("org.springframework.cloud:spring-cloud-starter-stream-rabbit")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+
+    compile("org.springframework.cloud:spring-cloud-sleuth-stream")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+  }
+
+  dependencyManagement {
+    imports {
+      mavenBom "org.springframework.boot:spring-boot-dependencies:$springBootVersion"
+      mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+      mavenBom "org.springframework.cloud:spring-cloud-task-dependencies:$springCloudTaskVersion"
+    }
+  }
+}
+
+wrapper {
+  gradleVersion = "4.2"
+  distributionType = "ALL"
+}
+
+def isDocker(def absPath) {
+  def projectPath = absPath.replaceFirst(rootDir.absolutePath, "")
+  projectPath.contains("docker")
+}
