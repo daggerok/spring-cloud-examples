@@ -1,0 +1,25 @@
+version: "3.3"
+
+services:
+
+  spring-cloud-stream-app:
+    image: 127.0.0.1:5000/spring-cloud-stream-app
+    build:
+      context: ..
+      dockerfile: ./docker/spring-cloud-stream-app/Dockerfile
+    environment:
+      SPRING_RABBITMQ_HOST: rabbitmq
+    volumes: ["spring-cloud-stream-app-data:/opt/app"]
+    ports: ["8080:8080"]
+    networks: [backing-services]
+    restart: unless-stopped
+    deploy:
+      mode: replicated
+      replicas: 1
+      endpoint_mode: vip
+
+volumes:
+  spring-cloud-stream-app-data:
+
+networks:
+  backing-services:

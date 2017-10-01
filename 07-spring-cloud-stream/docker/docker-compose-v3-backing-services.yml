@@ -1,0 +1,39 @@
+version: "3.3"
+
+services:
+
+  rabbitmq:
+    image: 127.0.0.1:5000/rabbitmq
+    build: ./rabbitmq
+    volumes:
+      - "rabbitmq-data:/var/lib/rabbitmq"
+      - "rabbitmq-data:/etc/rabbitmq"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "61613:61613"
+    networks: [backing-services]
+    restart: unless-stopped
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.role == manager]
+
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports: ["8000:8080"]
+    stop_grace_period: 1m30s
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          cpus: "0.01"
+      placement:
+        constraints: [node.role == manager]
+
+volumes:
+  rabbitmq-data:
+
+networks:
+  backing-services:

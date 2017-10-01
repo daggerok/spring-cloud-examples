@@ -3,6 +3,8 @@ buildscript {
     springBootVersion = "1.5.7.RELEASE"
     springCloudVersion = "Dalston.SR3"
     springCloudTaskVersion = "1.2.1.RELEASE"
+    propertiesPluginEnvironmentNameProperty = "env"
+    environmentFileDir = "env"
   }
   repositories {
     mavenCentral()
@@ -15,11 +17,16 @@ buildscript {
 plugins {
   id "idea"
   id "eclipse"
+  id "net.saliman.properties" version "1.4.6"
+  //id "org.springframework.boot" version "1.5.7.RELEASE" apply false
 }
 
-allprojects {
+subprojects { subproject ->
+
+  if (isDocker(subproject)) return
 
   apply plugin: "java"
+  //apply plugin: "groovy"
 
   group = "daggerok"
   version = "0.0.1"
@@ -28,24 +35,14 @@ allprojects {
   repositories {
     mavenCentral()
   }
-}
-
-subprojects {
-
-  if (isDocker(project.projectDir.absolutePath)) return
 
   apply plugin: "org.springframework.boot"
 
   dependencies {
-    compile("org.springframework.cloud:spring-cloud-starter")
-
-    compile("org.springframework.boot:spring-boot-starter-amqp")
-    compile("org.springframework.cloud:spring-cloud-starter-bus-amqp")
+    compileOnly("org.projectlombok:lombok")
     compile("org.springframework.cloud:spring-cloud-starter-stream-rabbit")
     compile("org.springframework.boot:spring-boot-starter-actuator")
-
-    compile("org.springframework.cloud:spring-cloud-sleuth-stream")
-
+    compile("io.vavr:vavr:0.9.1")
     testCompile("org.springframework.boot:spring-boot-starter-test")
   }
 
@@ -56,14 +53,17 @@ subprojects {
       mavenBom "org.springframework.cloud:spring-cloud-task-dependencies:$springCloudTaskVersion"
     }
   }
+
+  springBoot.executable = true
+}
+
+def isDocker(Project p) {
+  def absPath = p.projectDir.absolutePath
+  def projectPath = absPath.replaceFirst(rootDir.absolutePath, "")
+  projectPath.contains("docker")
 }
 
 wrapper {
   gradleVersion = "4.2"
   distributionType = "ALL"
-}
-
-def isDocker(def absPath) {
-  def projectPath = absPath.replaceFirst(rootDir.absolutePath, "")
-  projectPath.contains("docker")
 }

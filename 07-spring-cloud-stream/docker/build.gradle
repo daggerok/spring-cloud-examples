@@ -2,26 +2,18 @@ plugins {
   id "com.avast.gradle.docker-compose" version "0.5.4"
 }
 
+dockerCompose {
+  useComposeFiles = ["${root()}/docker/docker-compose.yml"]
+  captureContainersOutput = true
+  stopContainers = true
+  removeContainers = true
+  removeImages = "Local"
+  removeVolumes = true
+  removeOrphans = true
+  projectName = "$project.name"
+}
+
 // fix windows paths, replace all "\\" with "/"
-def root = rootDir.absolutePath.replaceAll("\\\\", "/")
-
-subprojects {
-  dockerCompose {
-    useComposeFiles = ["$root/docker/$project.name/docker-compose.yml"]
-    captureContainersOutput = true
-    stopContainers = true
-    removeContainers = true
-    removeImages = "Local"
-    removeVolumes = true
-    removeOrphans = true
-    projectName = "$project.name"
-  }
-
-  tasks.create("$project.name-up") {
-    dependsOn composeUp
-  }
-
-  tasks.create("$project.name-down") {
-    dependsOn composeDown
-  }
+def root() {
+  rootDir.absolutePath.replaceAll("\\\\", "/")
 }

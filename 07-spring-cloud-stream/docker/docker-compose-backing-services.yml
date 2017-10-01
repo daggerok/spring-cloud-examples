@@ -1,8 +1,16 @@
 version: "2.1"
+
 services:
-  rabbitmq:
+
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports: ["8000:8080"]
+    stop_grace_period: 1m30s
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
     restart: unless-stopped
-    build: ../../rabbitmq
+
+  rabbitmq:
+    build: ./rabbitmq
     volumes:
       - "rabbitmq-data:/var/lib/rabbitmq"
       - "rabbitmq-data:/etc/rabbitmq"
@@ -10,8 +18,11 @@ services:
       - "5672:5672"
       - "15672:15672"
     networks: [backing-services]
+    restart: unless-stopped
+
 volumes:
   rabbitmq-data: {}
+
 networks:
   backing-services:
     driver: bridge
