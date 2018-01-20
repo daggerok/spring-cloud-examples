@@ -12,6 +12,7 @@ This repository contains some spring-cloud playground projects
 . link:05-spring-cloud-task/[Spring Cloud Task]
 . link:06-spring-cloud-dataflow-kubernetes/[Spring Cloud Dataflow Kubernetes]
 . link:07-spring-cloud-stream/[Spring Cloud Stream]
+. link:reactive-data-flow-systems/[reactive data flow systems]
 
 .publish documentation to GitHub Pages
 [sources,bash]
