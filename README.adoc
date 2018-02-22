@@ -14,6 +14,10 @@ This repository contains some spring-cloud playground projects
 . link:07-spring-cloud-stream/[Spring Cloud Stream]
 . link:reactive-data-flow-systems/[reactive data flow systems]
 
+Other repositories:
+
+. link:https://github.com/daggerok/serverless-examples[Serveless examples (spring-cloud-functions)]
+
 .publish documentation to GitHub Pages
 [sources,bash]
 ----
