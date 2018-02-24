@@ -1,6 +1,12 @@
+buildscript {
+  ext {
+    asciidocBuildDir = "$buildDir/asciidoc"
+  }
+}
+
 plugins {
   id "org.asciidoctor.convert" version "1.5.3"
-  id "org.ajoberstar.git-publish" version "0.3.0"
+  id "org.ajoberstar.git-publish" version "0.2.2"
 }
 
 group "daggerok"
@@ -15,7 +21,7 @@ asciidoctor {
   sources {
     include "index.adoc"
   }
-  outputDir = project.file("$buildDir/asciidoc")
+  outputDir = project.file("$asciidocBuildDir")
   attributes toc: "left",
       idprefix: "",
       docinfo1: "",
@@ -28,6 +34,11 @@ asciidoctor {
       "endpoint-url": "https://daggerok.github.io/spring-cloud-examples"
 }
 
+asciidoctor.doLast {
+  file("$asciidocBuildDir/html5/404.html").text = file("$asciidocBuildDir/html5/index.html").text
+  file("$asciidocBuildDir/html5/.nojekyll").text = "\n"
+}
+
 asciidoctor.shouldRunAfter clean
 
 // read more: https://github.com/ajoberstar/gradle-git-publish
@@ -35,11 +46,15 @@ gitPublish {
   repoUri = "git@github.com:daggerok/spring-cloud-examples.git"
   branch = "gh-pages"
   contents {
-    from "$buildDir/asciidoc/html5"
+    from "$asciidocBuildDir/html5"
     from "$projectDir/src/static"
     into "."
   }
+  commitMessage = "Publish documentation for ${project.group}:${project.name}:$project.version"
 }
 
+
 gitPublishPush.dependsOn asciidoctor
-gitPublishPush.shouldRunAfter clean, asciidoctor
+gitPublishPush.shouldRunAfter clean, asciidoctor, build
+
+task docs(dependsOn: gitPublishPush)
