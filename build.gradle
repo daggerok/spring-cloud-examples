@@ -4,6 +4,6 @@ plugins {
 }
 
 wrapper {
-  gradleVersion = "4.2"
+  gradleVersion = "4.6-rc-2"
   distributionType = "ALL"
 }
