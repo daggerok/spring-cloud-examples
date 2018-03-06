@@ -17,9 +17,3 @@ This repository contains some spring-cloud playground projects
 Other repositories:
 
 . link:https://github.com/daggerok/serverless-examples[Serveless examples (spring-cloud-functions)]
-
-.publish documentation to GitHub Pages
-[sources,bash]
-----
-./gradlew clean gitPublishPush
-----
