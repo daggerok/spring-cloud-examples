@@ -6,6 +6,7 @@
 bash gradlew clean gitPublishPush
 ----
 
+<!--
 Download https://plugins.gradle.org/m2/org/asciidoctor/convert/org.asciidoctor.convert.gradle.plugin/1.5.3/org.asciidoctor.convert.gradle.plugin-1.5.3.pom
 Download https://plugins.gradle.org/m2/org/ajoberstar/git-publish/org.ajoberstar.git-publish.gradle.plugin/0.3.3/org.ajoberstar.git-publish.gradle.plugin-0.3.3.pom
 Download https://plugins.gradle.org/m2/org/ajoberstar/gradle-git-publish/0.3.3/gradle-git-publish-0.3.3.pom
@@ -34,3 +35,4 @@ Download https://jcenter.bintray.com/com/beust/jcommander/1.35/jcommander-1.35.j
 Download https://jcenter.bintray.com/org/jruby/jruby-complete/1.7.26/jruby-complete-1.7.26.jar
 Download https://jcenter.bintray.com/org/codehaus/groovy/groovy-all/1.8.9/groovy-all-1.8.9.jar
 Download https://jcenter.bintray.com/org/asciidoctor/asciidoctorj/1.5.5/asciidoctorj-1.5.5.jar
+-->
