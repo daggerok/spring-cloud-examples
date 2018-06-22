@@ -1,0 +1,69 @@
+= Spring Boot Cloud CLI image:https://travis-ci.org/daggerok/spring-cloud-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-cloud-examples"]
+
+.1.1. install spring boot CLI on Mac OS X
+[source,bash]
+----
+# mac os x:
+brew tap pivotal/tap
+brew search spring
+brew install springboot
+
+# sdkman (bash):
+curl -s "https://get.sdkman.io" | bash
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+sdk install springboot
+sdk ls springboot
+
+# mac ports:
+sudo port install spring-boot-cli
+
+# windows scoop
+scoop bucket add extras
+scoop install springboot
+----
+
+.1.2. in addition you can install command line complition:
+[source,bash]
+----
+# sdkman in bash:
+. ~/.sdkman/candidates/springboot/current/shell-completion/bash/spring
+
+# mac os x homebrew:
+brew search spring
+brew install spring-completion
+----
+
+.2. install latest stable version of Spring Cloud CLI (for me at the moment is: 1.3.3):
+[source,bash]
+----
+spring install org.springframework.cloud:spring-cloud-cli:1.3.3.RELEASE
+----
+
+NOTE: check latest stable version on home page: https://cloud.spring.io/spring-cloud-cli/
+
+.3. bootstrap needed spring-cloud services
+[source,bash]
+----
+spring cloud eureka configserver zipkin
+----
+
+.4. and more...
+[source,bash]
+----
+spring cloud eureka configserver h2 kafka stubrunner zipkin
+----
+
+.5. list available apps
+[source,bash]
+----
+spring cloud --list
+----
+
+NOTE: More details located link:http://cloud.spring.io/spring-cloud-cli/multi/multi__running_spring_cloud_services_in_development.html[here]
+
+reference / documentation links:
+
+- link:https://github.com/spring-projects/spring-boot[Install Spring Boot CLI]
+- link:http://cloud.spring.io/spring-cloud-static/spring-cloud-cli/1.3.2.RELEASE/[Spring Boot Cloud CLI Reference]
+- link:http://cloud.spring.io/spring-cloud-cli/[Spring Cloud CLI Home Page]
+- link:http://cloud.spring.io/spring-cloud-cli/multi/multi_spring-cloud-cli.html[Spring Boot Cloud CLI: one more reference...]
