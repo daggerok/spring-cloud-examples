@@ -601,7 +601,7 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.4.1,</span>
-<span id="revdate">2017-09-28 22:15:52 EEST</span>
+<span id="revdate">2018-06-22 05:40:27 UTC</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
@@ -621,15 +621,7 @@ table.CodeRay td.code>pre{padding:0}
 <li><a href="#search-locations-in-configserver-native">6. Search Locations in ConfigServer Native</a></li>
 <li><a href="#override-spring-cloud-config">7. Override Spring Cloud Config</a></li>
 <li><a href="#spring-cloud-task">8. Spring Cloud Task</a></li>
-<li><a href="#spring-cloud-dataflow-kubernetes">9. Spring Cloud Dataflow Kubernetes</a>
-<ul class="sectlevel2">
-<li><a href="#deploy-dataflow-server-on-kubernetes">9.1. Deploy Dataflow Server on Kubernetes</a></li>
-<li><a href="#dataflow-shell">9.2. Dataflow Shell</a></li>
-<li><a href="#accessing-app-from-outside-the-cluster">9.3. Accessing app from outside the cluster</a></li>
-<li><a href="#ui">9.4. UI</a></li>
-<li><a href="#cleanup">9.5. cleanup</a></li>
-</ul>
-</li>
+<li><a href="#spring-cloud-dataflow-kubernetes">9. Spring Cloud Dataflow Kubernetes</a></li>
 <li><a href="#spring-cloud-stream">10. Spring Cloud Stream</a></li>
 <li><a href="#links-2">11. links</a></li>
 <li><a href="#enjoy">12. Enjoy! :)</a></li>
@@ -653,15 +645,15 @@ It&#8217;s contains some spring-cloud playground projects</p>
 <div class="listingblock">
 <div class="title">build, run and test</div>
 <div class="content">
-<pre>bash gradlew clean assemble
+<pre class="CodeRay highlight"><code data-lang="bash">bash gradlew clean assemble
 bash gradlew composeUp
-bash gradlew composeDown</pre>
+bash gradlew composeDown</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">fetch configs from config-server using REST API</div>
 <div class="content">
-<pre># http :8888/{application}/{profile}[/{label}]
+<pre class="CodeRay highlight"><code data-lang="bash"># http :8888/{application}/{profile}[/{label}]
 # http :8888/{application}-{profile}.yml
 # http :8888/{label}/{application}-{profile}.yml
 # http :8888/{application}-{profile}.properties
@@ -669,7 +661,7 @@ bash gradlew composeDown</pre>
 
 http :8888/config-server-default.properties
 http :8888/config-server-default.yml
-http :8888/config-server/default/</pre>
+http :8888/config-server/default/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -690,15 +682,15 @@ http :8888/config-server/default/</pre>
 <div class="listingblock">
 <div class="title">build, run and test</div>
 <div class="content">
-<pre>bash gradlew clean assemble
+<pre class="CodeRay highlight"><code data-lang="bash">bash gradlew clean assemble
 bash gradlew composeUp
-bash gradlew composeDown</pre>
+bash gradlew composeDown</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">fetch configs from config-server using REST API</div>
 <div class="content">
-<pre># http :8888/{application}/{profile}[/{label}]
+<pre class="CodeRay highlight"><code data-lang="bash"># http :8888/{application}/{profile}[/{label}]
 # http :8888/{application}-{profile}.yml
 # http :8888/{label}/{application}-{profile}.yml
 # http :8888/{application}-{profile}.properties
@@ -706,7 +698,7 @@ bash gradlew composeDown</pre>
 
 http :8888/config-server-default.properties
 http :8888/config-server-default.yml
-http :8888/config-server/default/</pre>
+http :8888/config-server/default/</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -727,16 +719,16 @@ http :8888/config-server/default/</pre>
 <div class="listingblock">
 <div class="title">build, run and test</div>
 <div class="content">
-<pre># up infrastructure
+<pre class="CodeRay highlight"><code data-lang="bash"># up infrastructure
 bash gradlew clean assemble composeUp
 # cleanup
-bash gradlew composeDwown</pre>
+bash gradlew composeDwown</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">testing services</div>
 <div class="content">
-<pre># http :8888/{application}/{profile}[/{label}]
+<pre class="CodeRay highlight"><code data-lang="bash"># http :8888/{application}/{profile}[/{label}]
 # http :8888/{application}-{profile}.yml
 # http :8888/{label}/{application}-{profile}.yml
 # http :8888/{application}-{profile}.properties
@@ -744,7 +736,7 @@ bash gradlew composeDwown</pre>
 
 http :8888/config-server-default.properties
 http :8888/config-server-default.yml
-http :8888/zipkin-server/default</pre>
+http :8888/zipkin-server/default</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -772,34 +764,34 @@ http :8888/zipkin-server/default</pre>
 <div class="listingblock">
 <div class="title">VaultEnvironmentRepository.java - org/springframework/cloud/config/server/environment/VaultEnvironmentRepository.class</div>
 <div class="content">
-<pre>@ConfigurationProperties("spring.cloud.config.server.vault")
-public class VaultEnvironmentRepository implements EnvironmentRepository, Ordered {
+<pre class="CodeRay highlight"><code data-lang="java"><span class="annotation">@ConfigurationProperties</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">spring.cloud.config.server.vault</span><span class="delimiter">&quot;</span></span>)
+<span class="directive">public</span> <span class="type">class</span> <span class="class">VaultEnvironmentRepository</span> <span class="directive">implements</span> EnvironmentRepository, Ordered {
 
-  public static final String VAULT_TOKEN = "X-Vault-Token";
+  <span class="directive">public</span> <span class="directive">static</span> <span class="directive">final</span> <span class="predefined-type">String</span> VAULT_TOKEN = <span class="string"><span class="delimiter">&quot;</span><span class="content">X-Vault-Token</span><span class="delimiter">&quot;</span></span>;
 
-  /** Vault host. Defaults to 127.0.0.1. */
-  @NotEmpty
-  private String host = "127.0.0.1";
+  <span class="comment">/** Vault host. Defaults to 127.0.0.1. */</span>
+  <span class="annotation">@NotEmpty</span>
+  <span class="directive">private</span> <span class="predefined-type">String</span> host = <span class="string"><span class="delimiter">&quot;</span><span class="content">127.0.0.1</span><span class="delimiter">&quot;</span></span>;
 
-  /** Vault port. Defaults to 8200. */
-  @Range(min = 1, max = 65535)
-  private int port = 8200;
+  <span class="comment">/** Vault port. Defaults to 8200. */</span>
+  <span class="annotation">@Range</span>(min = <span class="integer">1</span>, max = <span class="integer">65535</span>)
+  <span class="directive">private</span> <span class="type">int</span> port = <span class="integer">8200</span>;
 
-  /** Vault scheme. Defaults to http. */
-  private String scheme = "http";
+  <span class="comment">/** Vault scheme. Defaults to http. */</span>
+  <span class="directive">private</span> <span class="predefined-type">String</span> scheme = <span class="string"><span class="delimiter">&quot;</span><span class="content">http</span><span class="delimiter">&quot;</span></span>;
 
-  /** Vault backend. Defaults to secret. */
-  @NotEmpty
-  private String backend = "secret";
+  <span class="comment">/** Vault backend. Defaults to secret. */</span>
+  <span class="annotation">@NotEmpty</span>
+  <span class="directive">private</span> <span class="predefined-type">String</span> backend = <span class="string"><span class="delimiter">&quot;</span><span class="content">secret</span><span class="delimiter">&quot;</span></span>;
 
-  /** The key in vault shared by all applications. Defaults to application. Set to empty to disable. */
-  private String defaultKey = "application";
+  <span class="comment">/** The key in vault shared by all applications. Defaults to application. Set to empty to disable. */</span>
+  <span class="directive">private</span> <span class="predefined-type">String</span> defaultKey = <span class="string"><span class="delimiter">&quot;</span><span class="content">application</span><span class="delimiter">&quot;</span></span>;
 
-  /** Vault profile separator. Defaults to comma. */
-  @NotEmpty
-  private String profileSeparator = ",";
+  <span class="comment">/** Vault profile separator. Defaults to comma. */</span>
+  <span class="annotation">@NotEmpty</span>
+  <span class="directive">private</span> <span class="predefined-type">String</span> profileSeparator = <span class="string"><span class="delimiter">&quot;</span><span class="content">,</span><span class="delimiter">&quot;</span></span>;
 
-  // ...</pre>
+  <span class="comment">// ...</span></code></pre>
 </div>
 </div>
 </div>
@@ -831,9 +823,9 @@ public class VaultEnvironmentRepository implements EnvironmentRepository, Ordere
 <div class="listingblock">
 <div class="title">build, run and test - not worked with confog-server in docker, run it in separate mode locally after vault docker will be bootstrapped</div>
 <div class="content">
-<pre>bash gradlew clean assemble composeUp bootRun
+<pre class="CodeRay highlight"><code data-lang="bash">bash gradlew clean assemble composeUp bootRun
 # do some...
-bash gradlew composeDown</pre>
+bash gradlew composeDown</code></pre>
 </div>
 </div>
 <div class="sect3">
@@ -841,7 +833,7 @@ bash gradlew composeDown</pre>
 <div class="listingblock">
 <div class="title">do unauthorized request</div>
 <div class="content">
-<pre>http :8888/application-default.properties
+<pre class="CodeRay highlight"><code data-lang="bash">http :8888/application-default.properties
 HTTP/1.1 400
 Connection: close
 Content-Type: application/json;charset=UTF-8
@@ -850,48 +842,48 @@ Transfer-Encoding: chunked
 X-Application-Context: application:vault:8888
 
 {
-    "error": "Bad Request",
-    "exception": "java.lang.IllegalArgumentException",
-    "message": "Missing required header: X-Config-Token",
-    "path": "/application-default.properties",
-    "status": 400,
-    "timestamp": 1506236894133
-}</pre>
+    &quot;error&quot;: &quot;Bad Request&quot;,
+    &quot;exception&quot;: &quot;java.lang.IllegalArgumentException&quot;,
+    &quot;message&quot;: &quot;Missing required header: X-Config-Token&quot;,
+    &quot;path&quot;: &quot;/application-default.properties&quot;,
+    &quot;status&quot;: 400,
+    &quot;timestamp&quot;: 1506236894133
+}</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">do authorized request</div>
 <div class="content">
-<pre>http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
+<pre class="CodeRay highlight"><code data-lang="bash">http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
 HTTP/1.1 200
 Content-Length: 0
 Content-Type: text/plain
 Date: Sun, 24 Sep 2017 07:09:49 GMT
 X-Application-Context: application:vault:8888
-# nothing...</pre>
+# nothing...</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">authorize vault in console</div>
 <div class="content">
-<pre>echo "spring-cloud-examples-vault-token" &gt; ~/.vault-token
-export VAULT_ADDR='http://0.0.0.0:8200'</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">echo &quot;spring-cloud-examples-vault-token&quot; &gt; ~/.vault-token
+export VAULT_ADDR='http://0.0.0.0:8200'</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">add some data t ovault storage</div>
 <div class="content">
-<pre>vault write /secret/application foo=bar
+<pre class="CodeRay highlight"><code data-lang="bash">vault write /secret/application foo=bar
 Success! Data written to: secret/application
 
 vault write /secret/bootstrap info='config-server + vault'
-Success! Data written to: secret/bootstrap</pre>
+Success! Data written to: secret/bootstrap</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">fetch data</div>
 <div class="content">
-<pre>http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
+<pre class="CodeRay highlight"><code data-lang="bash">http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
 HTTP/1.1 200
 Content-Length: 8
 Content-Type: text/plain
@@ -908,28 +900,28 @@ Transfer-Encoding: chunked
 X-Application-Context: application:vault:8888
 
 {
-    "label": null,
-    "name": "bootstrap",
-    "profiles": [
-        "default"
+    &quot;label&quot;: null,
+    &quot;name&quot;: &quot;bootstrap&quot;,
+    &quot;profiles&quot;: [
+        &quot;default&quot;
     ],
-    "propertySources": [
+    &quot;propertySources&quot;: [
         {
-            "name": "vault:bootstrap",
-            "source": {
-                "info": "config-server + vault"
+            &quot;name&quot;: &quot;vault:bootstrap&quot;,
+            &quot;source&quot;: {
+                &quot;info&quot;: &quot;config-server + vault&quot;
             }
         },
         {
-            "name": "vault:application",
-            "source": {
-                "foo": "bar"
+            &quot;name&quot;: &quot;vault:application&quot;,
+            &quot;source&quot;: {
+                &quot;foo&quot;: &quot;bar&quot;
             }
         }
     ],
-    "state": null,
-    "version": null
-}</pre>
+    &quot;state&quot;: null,
+    &quot;version&quot;: null
+}</code></pre>
 </div>
 </div>
 </div>
@@ -938,7 +930,7 @@ X-Application-Context: application:vault:8888
 <div class="listingblock">
 <div class="title">vault using REST API</div>
 <div class="content">
-<pre>http :8200/v1/sys/health
+<pre class="CodeRay highlight"><code data-lang="bash">http :8200/v1/sys/health
 HTTP/1.1 200 OK
 Cache-Control: no-store
 Content-Length: 182
@@ -946,14 +938,14 @@ Content-Type: application/json
 Date: Sun, 24 Sep 2017 06:07:03 GMT
 
 {
-    "cluster_id": "55c792d9-e39b-15ca-d13a-1942240d5a5f",
-    "cluster_name": "vault-cluster",
-    "initialized": true,
-    "sealed": false,
-    "server_time_utc": 1506233223,
-    "standby": false,
-    "version": "0.8.3"
-}</pre>
+    &quot;cluster_id&quot;: &quot;55c792d9-e39b-15ca-d13a-1942240d5a5f&quot;,
+    &quot;cluster_name&quot;: &quot;vault-cluster&quot;,
+    &quot;initialized&quot;: true,
+    &quot;sealed&quot;: false,
+    &quot;server_time_utc&quot;: 1506233223,
+    &quot;standby&quot;: false,
+    &quot;version&quot;: &quot;0.8.3&quot;
+}</code></pre>
 </div>
 </div>
 </div>
@@ -963,21 +955,21 @@ Date: Sun, 24 Sep 2017 06:07:03 GMT
 <div class="listingblock">
 <div class="title">add in settings.gralde</div>
 <div class="content">
-<pre>include "docker:vault-rabbitmq-config"</pre>
+<pre class="CodeRay highlight"><code data-lang="gradle">include &quot;docker:vault-rabbitmq-config&quot;</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">build, run and test - not worked with confog-server in docker, run it in separate mode locally after vault docker will be bootstrapped</div>
 <div class="content">
-<pre>bash gradlew clean assemble composeUp
+<pre class="CodeRay highlight"><code data-lang="bash">bash gradlew clean assemble composeUp
 # do some...
-bash gradlew composeDown</pre>
+bash gradlew composeDown</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">do unauthorized request</div>
 <div class="content">
-<pre>http :8888/application-default.properties
+<pre class="CodeRay highlight"><code data-lang="bash">http :8888/application-default.properties
 HTTP/1.1 400
 Connection: close
 Content-Type: application/json;charset=UTF-8
@@ -986,48 +978,48 @@ Transfer-Encoding: chunked
 X-Application-Context: application:vault:8888
 
 {
-    "error": "Bad Request",
-    "exception": "java.lang.IllegalArgumentException",
-    "message": "Missing required header: X-Config-Token",
-    "path": "/application-default.properties",
-    "status": 400,
-    "timestamp": 1506236894133
-}</pre>
+    &quot;error&quot;: &quot;Bad Request&quot;,
+    &quot;exception&quot;: &quot;java.lang.IllegalArgumentException&quot;,
+    &quot;message&quot;: &quot;Missing required header: X-Config-Token&quot;,
+    &quot;path&quot;: &quot;/application-default.properties&quot;,
+    &quot;status&quot;: 400,
+    &quot;timestamp&quot;: 1506236894133
+}</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">do some authorized requests</div>
 <div class="content">
-<pre>http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
+<pre class="CodeRay highlight"><code data-lang="bash">http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
 HTTP/1.1 200
 Content-Length: 0
 Content-Type: text/plain
 Date: Sun, 24 Sep 2017 07:09:49 GMT
 X-Application-Context: application:vault:8888
-# nothing...</pre>
+# nothing...</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">authorize vault in console</div>
 <div class="content">
-<pre>echo "spring-cloud-examples-vault-token" &gt; ~/.vault-token
-export VAULT_ADDR='http://0.0.0.0:8200'</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">echo &quot;spring-cloud-examples-vault-token&quot; &gt; ~/.vault-token
+export VAULT_ADDR='http://0.0.0.0:8200'</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">add some data</div>
 <div class="content">
-<pre>vault write /secret/application foo=bar
+<pre class="CodeRay highlight"><code data-lang="bash">vault write /secret/application foo=bar
 Success! Data written to: secret/application
 
 vault write /secret/bootstrap info='config-server + vault'
-Success! Data written to: secret/bootstrap</pre>
+Success! Data written to: secret/bootstrap</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">fetch data</div>
 <div class="content">
-<pre>http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
+<pre class="CodeRay highlight"><code data-lang="bash">http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
 HTTP/1.1 200
 Content-Length: 8
 Content-Type: text/plain
@@ -1044,7 +1036,7 @@ Date: Sun, 24 Sep 2017 07:14:14 GMT
 X-Application-Context: application:vault:8888
 
 foo: bar
-info: config-server + vault</pre>
+info: config-server + vault</code></pre>
 </div>
 </div>
 </div>
@@ -1075,24 +1067,24 @@ info: config-server + vault</pre>
 <div class="listingblock">
 <div class="title">important</div>
 <div class="content">
-<pre>spring:
-  profiles:
-    active:
-      - native</pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">profiles</span>:
+    <span class="key">active</span>:
+      - <span class="string"><span class="content">native</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">build, run and test</div>
 <div class="content">
-<pre>bash gradlew clean assemble composeUp
+<pre class="CodeRay highlight"><code data-lang="bash">bash gradlew clean assemble composeUp
 # do some..
-bash gradlew composeDown</pre>
+bash gradlew composeDown</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">fetch configs from config-server using REST API</div>
 <div class="content">
-<pre># http :8888/{application}/{profile}[/{label}]
+<pre class="CodeRay highlight"><code data-lang="bash"># http :8888/{application}/{profile}[/{label}]
 # http :8888/{application}-{profile}.yml
 # http :8888/{label}/{application}-{profile}.yml
 # http :8888/{application}-{profile}.properties
@@ -1133,25 +1125,25 @@ Transfer-Encoding: chunked
 X-Application-Context: application:native,rabbitmq:8888
 
 {
-    "label": null,
-    "name": "db",
-    "profiles": [
-        "default"
+    &quot;label&quot;: null,
+    &quot;name&quot;: &quot;db&quot;,
+    &quot;profiles&quot;: [
+        &quot;default&quot;
     ],
-    "propertySources": [
+    &quot;propertySources&quot;: [
         {
-            "name": "classpath:/config/db.yml",
-            "source": {
-                "db.name": "${$DB_NAME:postgres}",
-                "db.password": "${$DB_PASSWORD:postgres}",
-                "db.server.host": "${$DB_SERVER_HOST:0.0.0.0}",
-                "db.server.port": "${$DB_SERVER_PORT:5432}",
-                "db.username": "${$DB_USERNAME:postgres}"
+            &quot;name&quot;: &quot;classpath:/config/db.yml&quot;,
+            &quot;source&quot;: {
+                &quot;db.name&quot;: &quot;${$DB_NAME:postgres}&quot;,
+                &quot;db.password&quot;: &quot;${$DB_PASSWORD:postgres}&quot;,
+                &quot;db.server.host&quot;: &quot;${$DB_SERVER_HOST:0.0.0.0}&quot;,
+                &quot;db.server.port&quot;: &quot;${$DB_SERVER_PORT:5432}&quot;,
+                &quot;db.username&quot;: &quot;${$DB_USERNAME:postgres}&quot;
             }
         }
     ],
-    "state": null,
-    "version": null
+    &quot;state&quot;: null,
+    &quot;version&quot;: null
 }
 
 http :8888/db/dev
@@ -1162,35 +1154,35 @@ Transfer-Encoding: chunked
 X-Application-Context: application:native:8888
 
 {
-    "label": null,
-    "name": "db",
-    "profiles": [
-        "dev"
+    &quot;label&quot;: null,
+    &quot;name&quot;: &quot;db&quot;,
+    &quot;profiles&quot;: [
+        &quot;dev&quot;
     ],
-    "propertySources": [
+    &quot;propertySources&quot;: [
         {
-            "name": "classpath:/config/db-dev.yml",
-            "source": {
-                "db.name": "postgres}",
-                "db.password": "postgres}",
-                "db.server.host": "127.0.0.1",
-                "db.server.port": 5432,
-                "db.username": "postgres}"
+            &quot;name&quot;: &quot;classpath:/config/db-dev.yml&quot;,
+            &quot;source&quot;: {
+                &quot;db.name&quot;: &quot;postgres}&quot;,
+                &quot;db.password&quot;: &quot;postgres}&quot;,
+                &quot;db.server.host&quot;: &quot;127.0.0.1&quot;,
+                &quot;db.server.port&quot;: 5432,
+                &quot;db.username&quot;: &quot;postgres}&quot;
             }
         },
         {
-            "name": "classpath:/config/db.yml",
-            "source": {
-                "db.name": "${$DB_NAME:postgres}",
-                "db.password": "${$DB_PASSWORD:postgres}",
-                "db.server.host": "${$DB_SERVER_HOST:0.0.0.0}",
-                "db.server.port": "${$DB_SERVER_PORT:5432}",
-                "db.username": "${$DB_USERNAME:postgres}"
+            &quot;name&quot;: &quot;classpath:/config/db.yml&quot;,
+            &quot;source&quot;: {
+                &quot;db.name&quot;: &quot;${$DB_NAME:postgres}&quot;,
+                &quot;db.password&quot;: &quot;${$DB_PASSWORD:postgres}&quot;,
+                &quot;db.server.host&quot;: &quot;${$DB_SERVER_HOST:0.0.0.0}&quot;,
+                &quot;db.server.port&quot;: &quot;${$DB_SERVER_PORT:5432}&quot;,
+                &quot;db.username&quot;: &quot;${$DB_USERNAME:postgres}&quot;
             }
         }
     ],
-    "state": null,
-    "version": null
+    &quot;state&quot;: null,
+    &quot;version&quot;: null
 }
 
 http :8888/mq-dev.yml
@@ -1205,7 +1197,7 @@ mq:
   server:
     host: 127.0.0.1
     port: 5672
-  username: guest</pre>
+  username: guest</code></pre>
 </div>
 </div>
 </div>
@@ -1219,31 +1211,31 @@ mq:
 <div class="listingblock">
 <div class="title">important</div>
 <div class="content">
-<pre>spring:
-  profiles:
-    active: native
-  cloud:
-    config:
-      server:
-        native:
-          search-locations: &gt;
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="key">spring</span>:
+  <span class="key">profiles</span>:
+    <span class="key">active</span>: <span class="string"><span class="content">native</span></span>
+  <span class="key">cloud</span>:
+    <span class="key">config</span>:
+      <span class="key">server</span>:
+        <span class="key">native</span>:
+          <span class="key">search-locations</span>: <span class="string"><span class="delimiter">&gt;</span><span class="content">
             classpath:/config,
             classpath:/db,
-            classpath:/mq</pre>
+            classpath:/mq</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">build, run and test</div>
 <div class="content">
-<pre>bash gradlew clean assemble composeUp
+<pre class="CodeRay highlight"><code data-lang="bash">bash gradlew clean assemble composeUp
 # do some..
-bash gradlew composeDown</pre>
+bash gradlew composeDown</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">def default db app configs</div>
 <div class="content">
-<pre>http :8888/db/default
+<pre class="CodeRay highlight"><code data-lang="bash">http :8888/db/default
 HTTP/1.1 200
 Content-Type: application/json;charset=UTF-8
 Date: Sun, 24 Sep 2017 20:10:22 GMT
@@ -1251,32 +1243,32 @@ Transfer-Encoding: chunked
 X-Application-Context: application:native,rabbitmq:8888
 
 {
-    "label": null,
-    "name": "db",
-    "profiles": [
-        "default"
+    &quot;label&quot;: null,
+    &quot;name&quot;: &quot;db&quot;,
+    &quot;profiles&quot;: [
+        &quot;default&quot;
     ],
-    "propertySources": [
+    &quot;propertySources&quot;: [
         {
-            "name": "classpath:/db/db.yml",
-            "source": {
-                "db.name": "${$DB_NAME:postgres}",
-                "db.password": "${$DB_PASSWORD:postgres}",
-                "db.server.host": "${$DB_SERVER_HOST:0.0.0.0}",
-                "db.server.port": "${$DB_SERVER_PORT:5432}",
-                "db.username": "${$DB_USERNAME:postgres}"
+            &quot;name&quot;: &quot;classpath:/db/db.yml&quot;,
+            &quot;source&quot;: {
+                &quot;db.name&quot;: &quot;${$DB_NAME:postgres}&quot;,
+                &quot;db.password&quot;: &quot;${$DB_PASSWORD:postgres}&quot;,
+                &quot;db.server.host&quot;: &quot;${$DB_SERVER_HOST:0.0.0.0}&quot;,
+                &quot;db.server.port&quot;: &quot;${$DB_SERVER_PORT:5432}&quot;,
+                &quot;db.username&quot;: &quot;${$DB_USERNAME:postgres}&quot;
             }
         }
     ],
-    "state": null,
-    "version": null
-}</pre>
+    &quot;state&quot;: null,
+    &quot;version&quot;: null
+}</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">get db app dev profile configs</div>
 <div class="content">
-<pre>http :8888/db/dev
+<pre class="CodeRay highlight"><code data-lang="bash">http :8888/db/dev
 HTTP/1.1 200
 Content-Type: application/json;charset=UTF-8
 Date: Sun, 24 Sep 2017 20:11:33 GMT
@@ -1284,86 +1276,86 @@ Transfer-Encoding: chunked
 X-Application-Context: application:native,rabbitmq:8888
 
 {
-    "label": null,
-    "name": "db",
-    "profiles": [
-        "dev"
+    &quot;label&quot;: null,
+    &quot;name&quot;: &quot;db&quot;,
+    &quot;profiles&quot;: [
+        &quot;dev&quot;
     ],
-    "propertySources": [
+    &quot;propertySources&quot;: [
         {
-            "name": "classpath:/db/db-dev.yml",
-            "source": {
-                "db.name": "postgres",
-                "db.password": "postgres",
-                "db.server.host": "127.0.0.1",
-                "db.server.port": 5432,
-                "db.username": "postgres"
+            &quot;name&quot;: &quot;classpath:/db/db-dev.yml&quot;,
+            &quot;source&quot;: {
+                &quot;db.name&quot;: &quot;postgres&quot;,
+                &quot;db.password&quot;: &quot;postgres&quot;,
+                &quot;db.server.host&quot;: &quot;127.0.0.1&quot;,
+                &quot;db.server.port&quot;: 5432,
+                &quot;db.username&quot;: &quot;postgres&quot;
             }
         },
         {
-            "name": "classpath:/db/db.yml",
-            "source": {
-                "db.name": "${$DB_NAME:postgres}",
-                "db.password": "${$DB_PASSWORD:postgres}",
-                "db.server.host": "${$DB_SERVER_HOST:0.0.0.0}",
-                "db.server.port": "${$DB_SERVER_PORT:5432}",
-                "db.username": "${$DB_USERNAME:postgres}"
+            &quot;name&quot;: &quot;classpath:/db/db.yml&quot;,
+            &quot;source&quot;: {
+                &quot;db.name&quot;: &quot;${$DB_NAME:postgres}&quot;,
+                &quot;db.password&quot;: &quot;${$DB_PASSWORD:postgres}&quot;,
+                &quot;db.server.host&quot;: &quot;${$DB_SERVER_HOST:0.0.0.0}&quot;,
+                &quot;db.server.port&quot;: &quot;${$DB_SERVER_PORT:5432}&quot;,
+                &quot;db.username&quot;: &quot;${$DB_USERNAME:postgres}&quot;
             }
         }
     ],
-    "state": null,
-    "version": null
-}</pre>
+    &quot;state&quot;: null,
+    &quot;version&quot;: null
+}</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">db-dev.properties config file</div>
 <div class="content">
-<pre># $ http :8888/db-dev.properties
+<pre class="CodeRay highlight"><code data-lang="properties"># $ http :8888/db-dev.properties
 # skip http metadata ...
 db.name: postgres
 db.password: postgres
 db.server.host: 127.0.0.1
 db.server.port: 5432
-db.username: postgres</pre>
+db.username: postgres</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">mq-dev.yaml config file</div>
 <div class="content">
-<pre># $ http :8888/mq-dev.yaml
-# skip http metadata ...
-mq:
-  password: guest
-  server:
-    host: 127.0.0.1
-    port: 5672
-  username: guest</pre>
+<pre class="CodeRay highlight"><code data-lang="yml"><span class="comment"># $ http :8888/mq-dev.yaml</span>
+<span class="comment"># skip http metadata ...</span>
+<span class="key">mq</span>:
+  <span class="key">password</span>: <span class="string"><span class="content">guest</span></span>
+  <span class="key">server</span>:
+    <span class="key">host</span>: <span class="string"><span class="content">127.0.0.1</span></span>
+    <span class="key">port</span>: <span class="string"><span class="content">5672</span></span>
+  <span class="key">username</span>: <span class="string"><span class="content">guest</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">also JSON is possible too (8888/mq-dev.json)</div>
 <div class="content">
-<pre>{
-    "mq": {
-        "password": "guest",
-        "server": {
-            "host": "127.0.0.1",
-            "port": 5672
+<pre class="CodeRay highlight"><code data-lang="json">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">mq</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">password</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">guest</span><span class="delimiter">&quot;</span></span>,
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">server</span><span class="delimiter">&quot;</span></span>: {
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">host</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">127.0.0.1</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">port</span><span class="delimiter">&quot;</span></span>: <span class="integer">5672</span>
         },
-        "username": "guest"
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">username</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">guest</span><span class="delimiter">&quot;</span></span>
     }
-}</pre>
+}</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">possible variants</div>
 <div class="content">
-<pre># http :8888/{application}/{profile}[/{label}]
+<pre class="CodeRay highlight"><code data-lang="bash"># http :8888/{application}/{profile}[/{label}]
 # http :8888/{application}-{profile}.yml
 # http :8888/{label}/{application}-{profile}.yml
 # http :8888/{application}-{profile}.properties
-# http :8888/{label}/{application}-{profile}.properties</pre>
+# http :8888/{label}/{application}-{profile}.properties</code></pre>
 </div>
 </div>
 </div>
@@ -1377,48 +1369,48 @@ mq:
 <div class="listingblock">
 <div class="title">comment overridion</div>
 <div class="content">
-<pre># ...  spring.cloud.config.server
-#        overrides:
-#          foo: overridden foo</pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="comment"># ...  spring.cloud.config.server</span>
+<span class="comment">#        overrides:</span>
+<span class="comment">#          foo: overridden foo</span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">bootstrap to test no overrides</div>
 <div class="content">
-<pre>bash gradlew clean assemble composeUp</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">bash gradlew clean assemble composeUp</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">get not overridden config</div>
 <div class="content">
-<pre>http :8888/foo-dev.yaml
-foo: baz</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">http :8888/foo-dev.yaml
+foo: baz</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">stop</div>
 <div class="content">
-<pre>bash gradlew composeDown</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">bash gradlew composeDown</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">add overridion</div>
 <div class="content">
-<pre># ... spring.cloud.config.server
-        overrides:
-          foo: overridden foo</pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span class="comment"># ... spring.cloud.config.server</span>
+        <span class="key">overrides</span>:
+          <span class="key">foo</span>: <span class="string"><span class="content">overridden foo</span></span></code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">bootstrap to test overrides config</div>
 <div class="content">
-<pre>bash gradlew clean assemble composeUp</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">bash gradlew clean assemble composeUp</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">get overriden config</div>
 <div class="content">
-<pre>cat config-server/src/main/resources/db/foo-dev.yml
+<pre class="CodeRay highlight"><code data-lang="bash">cat config-server/src/main/resources/db/foo-dev.yml
 foo: dev
 
 # but
@@ -1431,87 +1423,87 @@ foo: overridden foo
 
 # and
 http :8888/db-notfound.yml|grep foo
-foo: overridden foo</pre>
+foo: overridden foo</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">8888/foo/default</div>
 <div class="content">
-<pre>{
-    "label": null,
-    "name": "foo",
-    "profiles": [
-        "default"
+<pre class="CodeRay highlight"><code data-lang="json">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">profiles</span><span class="delimiter">&quot;</span></span>: [
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">default</span><span class="delimiter">&quot;</span></span>
     ],
-    "propertySources": [
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">propertySources</span><span class="delimiter">&quot;</span></span>: [
         {
-            "name": "overrides",
-            "source": {
-                "foo": "overridden foo"
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">overrides</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">source</span><span class="delimiter">&quot;</span></span>: {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">overridden foo</span><span class="delimiter">&quot;</span></span>
             }
         },
         {
-            "name": "classpath:/mq/foo.yml",
-            "source": {
-                "foo": "bar"
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">classpath:/mq/foo.yml</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">source</span><span class="delimiter">&quot;</span></span>: {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">bar</span><span class="delimiter">&quot;</span></span>
             }
         },
         {
-            "name": "classpath:/db/foo.yml",
-            "source": {
-                "foo": "foo"
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">classpath:/db/foo.yml</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">source</span><span class="delimiter">&quot;</span></span>: {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>
             }
         }
     ],
-    "state": null,
-    "version": null
-}</pre>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>
+}</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="title">8888/foo/dev</div>
 <div class="content">
-<pre>{
-    "label": null,
-    "name": "foo",
-    "profiles": [
-        "dev"
+<pre class="CodeRay highlight"><code data-lang="json">{
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">label</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">profiles</span><span class="delimiter">&quot;</span></span>: [
+        <span class="string"><span class="delimiter">&quot;</span><span class="content">dev</span><span class="delimiter">&quot;</span></span>
     ],
-    "propertySources": [
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">propertySources</span><span class="delimiter">&quot;</span></span>: [
         {
-            "name": "overrides",
-            "source": {
-                "foo": "overridden foo"
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">overrides</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">source</span><span class="delimiter">&quot;</span></span>: {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">overridden foo</span><span class="delimiter">&quot;</span></span>
             }
         },
         {
-            "name": "classpath:/mq/foo-dev.yml",
-            "source": {
-                "foo": "baz"
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">classpath:/mq/foo-dev.yml</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">source</span><span class="delimiter">&quot;</span></span>: {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">baz</span><span class="delimiter">&quot;</span></span>
             }
         },
         {
-            "name": "classpath:/db/foo-dev.yml",
-            "source": {
-                "foo": "dev"
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">classpath:/db/foo-dev.yml</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">source</span><span class="delimiter">&quot;</span></span>: {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">dev</span><span class="delimiter">&quot;</span></span>
             }
         },
         {
-            "name": "classpath:/mq/foo.yml",
-            "source": {
-                "foo": "bar"
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">classpath:/mq/foo.yml</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">source</span><span class="delimiter">&quot;</span></span>: {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">bar</span><span class="delimiter">&quot;</span></span>
             }
         },
         {
-            "name": "classpath:/db/foo.yml",
-            "source": {
-                "foo": "foo"
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">name</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">classpath:/db/foo.yml</span><span class="delimiter">&quot;</span></span>,
+            <span class="key"><span class="delimiter">&quot;</span><span class="content">source</span><span class="delimiter">&quot;</span></span>: {
+                <span class="key"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">foo</span><span class="delimiter">&quot;</span></span>
             }
         }
     ],
-    "state": null,
-    "version": null
-}</pre>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">state</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>,
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">version</span><span class="delimiter">&quot;</span></span>: <span class="value">null</span>
+}</code></pre>
 </div>
 </div>
 </div>
@@ -1525,8 +1517,8 @@ foo: overridden foo</pre>
 <div class="listingblock">
 <div class="title">build, run and test</div>
 <div class="content">
-<pre>bash gradlew clean assemble composeUp
-bash gradlew composeDown</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">bash gradlew clean assemble composeUp
+bash gradlew composeDown</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1547,196 +1539,8 @@ bash gradlew composeDown</pre>
 <div class="sect1">
 <h2 id="spring-cloud-dataflow-kubernetes">9. Spring Cloud Dataflow Kubernetes</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="deploy-dataflow-server-on-kubernetes">9.1. Deploy Dataflow Server on Kubernetes</h3>
-<div class="listingblock">
-<div class="title">bootstrap minikube</div>
-<div class="content">
-<pre>minikube start --cpus=4 --memory=4096</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">clone repo with scripts</div>
-<div class="content">
-<pre>git clone https://github.com/spring-cloud/spring-cloud-dataflow-server-kubernetes
-cd spring-cloud-dataflow-server-kubernetes
-git checkout master</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">create rabbitmq service</div>
-<div class="content">
-<pre>kubectl create -f src/kubernetes/rabbitmq/</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">verify</div>
-<div class="content">
-<pre>kubectl get all -l app=rabbitmq</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">mysql</div>
-<div class="content">
-<pre>kubectl create -f src/kubernetes/mysql/
-kubectl get all -l app=mysql</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">redis</div>
-<div class="content">
-<pre>kubectl create -f src/kubernetes/redis/
-kubectl get all -l app=redis</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">metrics</div>
-<div class="content">
-<pre>kubectl create -f src/kubernetes/metrics/metrics-deployment-rabbit.yaml
-kubectl create -f src/kubernetes/metrics/metrics-svc.yaml
-kubectl get all -l app=metrics</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">spring cloud flow server</div>
-<div class="content">
-<pre>kubectl create -f src/kubernetes/server/server-config-rabbit.yaml
-kubectl create -f src/kubernetes/server/server-svc.yaml
-kubectl create -f src/kubernetes/server/server-deployment.yaml
-kubectl get all -l app=scdf-server
-kubectl get svc scdf-server -w
-minikube service --url scdf-server
-http://192.168.99.100:31336</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="dataflow-shell">9.2. Dataflow Shell</h3>
-<div class="listingblock">
-<div class="content">
-<pre>wget http://repo.spring.io/snapshot/org/springframework/cloud/spring-cloud-dataflow-shell/1.3.0.BUILD-SNAPSHOT/spring-cloud-dataflow-shell-1.3.0.BUILD-SNAPSHOT.jar
-java -jar spring-cloud-dataflow-shell-1.3.0.BUILD-SNAPSHOT.jar</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Spring Cloud Data Flow shell</div>
-<div class="content">
-<pre>  ____                              ____ _                __
- / ___| _ __  _ __(_)_ __   __ _   / ___| | ___  _   _  __| |
- \___ \| '_ \| '__| | '_ \ / _` | | |   | |/ _ \| | | |/ _` |
-  ___) | |_) | |  | | | | | (_| | | |___| | (_) | |_| | (_| |
- |____/| .__/|_|  |_|_| |_|\__, |  \____|_|\___/ \__,_|\__,_|
-  ____ |_|    _          __|___/                 __________
- |  _ \  __ _| |_ __ _  |  ___| | _____      __  \ \ \ \ \ \
- | | | |/ _` | __/ _` | | |_  | |/ _ \ \ /\ / /   \ \ \ \ \ \
- | |_| | (_| | || (_| | |  _| | | (_) \ V  V /    / / / / / /
- |____/ \__,_|\__\__,_| |_|   |_|\___/ \_/\_/    /_/_/_/_/_/
-
-1.3.0.BUILD-SNAPSHOT
-
-Welcome to the Spring Cloud Data Flow shell. For assistance hit TAB or type "help".
-server-unknown:&gt;</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Configure the Data Flow server URI</div>
-<div class="content">
-<pre>server-unknown:&gt;dataflow config server --username user --password password --uri http://192.168.99.100:31336
-Successfully targeted http://192.168.99.100:31336</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">Register the Docker with Rabbit binder versions of the time and log apps using the shell</div>
-<div class="content">
-<pre>dataflow:&gt;app register --type source --name time --uri docker://springcloudstream/time-source-rabbit:1.2.0.RELEASE --metadata-uri maven://org.springframework.cloud.stream.app:time-source-rabbit:jar:metadata:1.2.0.RELEASE
-Successfully registered application 'source:time'
-
-dataflow:&gt;app register --type sink --name log --uri docker://springcloudstream/log-sink-rabbit:1.2.0.RELEASE --metadata-uri maven://org.springframework.cloud.stream.app:log-sink-rabbit:jar:metadata:1.2.0.RELEASE
-Successfully registered application 'sink:log'</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">register all out-of-the-box stream applications built with the Rabbit binder in bulk</div>
-<div class="content">
-<pre>dataflow:&gt;app import --uri http://repo.spring.io/libs-snapshot-local/org/springframework/cloud/stream/app/spring-cloud-stream-app-descriptor/1.0.0.BUILD-SNAPSHOT/spring-cloud-stream-app-descriptor-1.0.0.BUILD-SNAPSHOT.stream-apps-rabbit-docker
-Successfully registered applications: [source.tcp, sink.jdbc, source.http, sink.rabbit, source.rabbit, source.ftp, sink.gpfdist, processor.transform, source.loggregator, source.sftp, processor.filter, sink.cassandra, processor.groovy-filter, sink.router, source.trigger, sink.hdfs-dataset, processor.splitter, source.load-generator, processor.tcp-client, source.time, source.gemfire, source.twitterstream, sink.tcp, source.jdbc, sink.field-value-counter, sink.redis-pubsub, sink.hdfs, processor.bridge, processor.pmml, processor.httpclient, source.s3, sink.ftp, sink.log, sink.gemfire, sink.aggregate-counter, sink.throughput, source.triggertask, sink.s3, source.gemfire-cq, source.jms, source.tcp-client, processor.scriptable-transform, sink.counter, sink.websocket, source.mongodb, source.mail, processor.groovy-transform, source.syslog]</pre>
-</div>
-</div>
 <div class="paragraph">
-<p>in short: <code>app import --uri <a href="http://bit.ly/stream-applications-rabbit-docker" class="bare">http://bit.ly/stream-applications-rabbit-docker</a></code></p>
-</div>
-<div class="listingblock">
-<div class="title">Deploy a simple stream in the shell</div>
-<div class="content">
-<pre>dataflow:&gt;stream create --name ticktock --definition "time | log" --deploy
-Created new stream 'ticktock'
-Deployment request has been sent</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">use <code>!kubectl get pods</code> command to check on the state of the pods corresponding to this stream from the shell by running it as an OS command by adding a "!" before the command.</div>
-<div class="content">
-<pre>dataflow:&gt;! kubectl get pods -l role=spring-app -w
-command is:kubectl get pods -l role=spring-app
-NAME                              READY     STATUS    RESTARTS   AGE
-ticktock-log-0-2151959627-vnhw2   0/1       Running   0          2m
-ticktock-time-574236635-j7vrh     0/1       Running   0          2m
-ticktock-log-0-2151959627-vnhw2   1/1       Running   0          2m
-ticktock-time-574236635-j7vrh     1/1       Running   0          2m</pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">check service logs</div>
-<div class="content">
-<pre>server-unknown:&gt;! kubectl logs ticktock-log-0-2151959627-vnhw2
-command is:kubectl logs ticktock-log-0-2151959627-vnhw2
-2017-09-25 00:25:50.871  INFO 1 --- [           main] # ...skipped</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="accessing-app-from-outside-the-cluster">9.3. Accessing app from outside the cluster</h3>
-<div class="paragraph">
-<p>If your cluster doesn’t support external load balancers, like the Minikube, then you must use the NodePort approach.
-You can use deployment properties for configuring the access. Use <code>deployer.http.kubernetes.createLoadBalancer=true</code>
-for the app to specify that you want to have a LoadBalancer with an external IP address created for your app’s service.
-For the NodePort configuration use <code>deployer.http.kubernetes.createNodePort=&lt;port&gt;</code>
-where &lt;port&gt; should be a number between 30000 and 32767.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="ui">9.4. UI</h3>
-<div class="listingblock">
-<div class="title">go to UI - user / password</div>
-<div class="content">
-<pre>open $(minikube service --url scdf-server)</pre>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="cleanup">9.5. cleanup</h3>
-<div class="listingblock">
-<div class="title">cleanup</div>
-<div class="content">
-<pre>kubectl delete all,cm -l app=scdf-server
-kubectl delete all -l app=metrics
-kubectl delete all -l app=redis
-kubectl delete all -l app=mysql
-kubectl delete all -l app=rabbitmq
-minikube stop
-minikube delete</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>links:</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p><a href="https://docs.spring.io/spring-cloud-dataflow-server-kubernetes/docs/current-SNAPSHOT/reference/htmlsingle/">spring documentation</a></p>
-</li>
-</ol>
-</div>
+<p>Unresolved directive in index.adoc - include::../../06-spring-cloud-dataflow-kubernetes/README.adoc[tags=content]</p>
 </div>
 </div>
 </div>
@@ -1749,8 +1553,8 @@ minikube delete</pre>
 <div class="listingblock">
 <div class="title">build, run and test</div>
 <div class="content">
-<pre>bash gradlew clean assemble composeUp
-bash gradlew composeDown</pre>
+<pre class="CodeRay highlight"><code data-lang="bash">bash gradlew clean assemble composeUp
+bash gradlew composeDown</code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -1787,7 +1591,7 @@ bash gradlew composeDown</pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.4.1<br>
-Last updated 2017-09-28 22:15:52 EEST
+Last updated 2018-06-22 05:40:27 UTC
 </div>
 </div>
 </body>
