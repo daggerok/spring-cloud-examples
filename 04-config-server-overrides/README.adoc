@@ -5,7 +5,7 @@
 Spring Could Config Overrides
 
 .comment overridion
-[sources,yaml]
+[source,yaml]
 ----
 # ...  spring.cloud.config.server
 #        overrides:
@@ -13,20 +13,20 @@ Spring Could Config Overrides
 ----
 
 .bootstrap to test no overrides
-[sources,bash]
+[source,bash]
 ----
 bash gradlew clean assemble composeUp
 ----
 
 .get not overridden config
-[sources,bash]
+[source,bash]
 ----
 http :8888/foo-dev.yaml
 foo: baz
 ----
 
 .stop
-[sources,bash]
+[source,bash]
 ----
 bash gradlew composeDown
 ----
@@ -40,13 +40,13 @@ bash gradlew composeDown
 ----
 
 .bootstrap to test overrides config
-[sources,bash]
+[source,bash]
 ----
 bash gradlew clean assemble composeUp
 ----
 
 .get overriden config
-[sources,bash]
+[source,bash]
 ----
 cat config-server/src/main/resources/db/foo-dev.yml
 foo: dev
@@ -65,7 +65,7 @@ foo: overridden foo
 ----
 
 .8888/foo/default
-[sources,json]
+[source,json]
 ----
 {
     "label": null,
@@ -99,7 +99,7 @@ foo: overridden foo
 ----
 
 .8888/foo/dev
-[sources,json]
+[source,json]
 ----
 {
     "label": null,
