@@ -58,8 +58,28 @@ script:
     bash gradlew composeDown
   done;
 
+before_cache:
+- sudo rm -rf $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
+- sudo rm -rf $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
+- sudo rm -rf $HOME/.gradle/caches/modules-2/modules-2.lock
+
 cache:
   directories:
   - $HOME/.m2/
-  - $HOME/.gradle/caches/
-  - $HOME/.gradle/wrapper/
+  - $HOME/.gradle/
+
+env:
+  global:
+    secure: i6x6LoQalvUoWu5OvCsj6yK1czXoDQqqIh04SQlNhjoX+9RiMAPjzYuS8YgyA5YTvhYTxkRjpnZHAQANNp34w7iUf8wwTXhqJlRud5OAk3GS4ZdS4olUaYTWQZpzRlzLP5ukpPi0vmzEIQ0nvVoSXGgSEOzABfI8w13AVAMVTWOdWE8vjQlMAUgV4hPtE7JGL6dq4SmQ2Gek9QXEK2tt2NVyiGPIMMC1Qgpj154Nkhz7VhbXfaFk4dhu7ICX+AiZi+U/2IDbqOy+0cBLwanaGYsBSuwT6u24sSijI+Q0Js0Nry1lohfp8py9tCNf2T5GeZ+UJx1uJ5d9hTitMIECFYS6jrbT1tl70MsLcuF4kIFvjZAr/tYQBn4QgjONQne8EpX3v2HEg0ZQV7v751R1YLcR1mO0nyJawDY4VVGnOiDmlqNq1znRIYPfpr7Ag7ZMgt78nHT2LNmLkZNr5MNg2Z2aoJq29MFm0G6pCxoPg+cBhQ5p73NxGvqDmb+NHXw4DeMpWggG40Xh8XlBEFHjxHg+ryr7Fbl9oHS3xtVppDKLvUgkEBOxgkjMEvrSM7lmrsPluyxv9qy7lTQaEd+dg+tbsviHu20XAKZrTr1e6y8UBsQdNJ+lrGk4ywRy0VBQxSUPiycu2lEuJWoET4xlYWoYh5NYaIo7PYNL5lpxO0w=
+
+before_deploy: "./gradlew documentation"
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: "$GITHUB_TOKEN"
+  keep-history: true
+  on:
+    branch: master
+  local-dir: public
+  target_branch: gh-pages
