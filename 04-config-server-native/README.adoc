@@ -5,7 +5,7 @@ Spring Could Config Server native profile
 //tag::content[]
 
 .important
-[sources,yaml]
+[source,yaml]
 ----
 spring:
   profiles:
@@ -14,7 +14,7 @@ spring:
 ----
 
 .build, run and test
-[sources,bash]
+[source,bash]
 ----
 bash gradlew clean assemble composeUp
 # do some..
@@ -22,7 +22,7 @@ bash gradlew composeDown
 ----
 
 .fetch configs from config-server using REST API
-[sources,bash]
+[source,bash]
 ----
 # http :8888/{application}/{profile}[/{label}]
 # http :8888/{application}-{profile}.yml
