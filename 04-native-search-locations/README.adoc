@@ -29,7 +29,7 @@ bash gradlew composeDown
 ----
 
 .def default db app configs
-[sources,bash]
+[source,bash]
 ----
 http :8888/db/default
 HTTP/1.1 200

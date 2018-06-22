@@ -5,7 +5,7 @@
 Spring Could Task
 
 .build, run and test
-[sources,bash]
+[source,bash]
 ----
 bash gradlew clean assemble composeUp
 bash gradlew composeDown

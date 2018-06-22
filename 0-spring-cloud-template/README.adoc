@@ -3,7 +3,7 @@
 //tag::content[]
 
 .build, run and test
-[sources,bash]
+[source,bash]
 ----
 # up infrastructure
 bash gradlew clean assemble composeUp
@@ -12,7 +12,7 @@ bash gradlew composeDwown
 ----
 
 .testing services
-[sources,bash]
+[source,bash]
 ----
 # http :8888/{application}/{profile}[/{label}]
 # http :8888/{application}-{profile}.yml

@@ -32,7 +32,7 @@ bash gradlew composeDown
 ----
 
 .add overridion
-[sources,yaml]
+[source,yaml]
 ----
 # ... spring.cloud.config.server
         overrides:

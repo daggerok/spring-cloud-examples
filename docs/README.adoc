@@ -1,7 +1,7 @@
 = spring-cloud-examples docs image:https://travis-ci.org/daggerok/spring-cloud-examples.svg?branch=master["Build Status", link="https://travis-ci.org/daggerok/spring-cloud-examples"]
 
 .publish documentation to GitHub Pages
-[sources,bash]
+[source,bash]
 ----
 bash gradlew clean gitPublishPush
 ----
