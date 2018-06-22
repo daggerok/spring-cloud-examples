@@ -5,7 +5,7 @@
 Search locations for Spring Could Config Server Native
 
 .important
-[sources,yaml]
+[source,yaml]
 ----
 spring:
   profiles:
@@ -21,7 +21,7 @@ spring:
 ----
 
 .build, run and test
-[sources,bash]
+[source,bash]
 ----
 bash gradlew clean assemble composeUp
 # do some..
@@ -62,7 +62,7 @@ X-Application-Context: application:native,rabbitmq:8888
 ----
 
 .get db app dev profile configs
-[sources,bash]
+[source,bash]
 ----
 http :8888/db/dev
 HTTP/1.1 200
@@ -105,7 +105,7 @@ X-Application-Context: application:native,rabbitmq:8888
 ----
 
 .db-dev.properties config file
-[sources,properties]
+[source,properties]
 ----
 # $ http :8888/db-dev.properties
 # skip http metadata ...
@@ -117,7 +117,7 @@ db.username: postgres
 ----
 
 .mq-dev.yaml config file
-[sources,yml]
+[source,yml]
 ----
 # $ http :8888/mq-dev.yaml
 # skip http metadata ...
@@ -130,7 +130,7 @@ mq:
 ----
 
 .also JSON is possible too (8888/mq-dev.json)
-[sources,json]
+[source,json]
 ----
 {
     "mq": {
@@ -145,7 +145,7 @@ mq:
 ----
 
 .possible variants
-[sources,bash]
+[source,bash]
 ----
 # http :8888/{application}/{profile}[/{label}]
 # http :8888/{application}-{profile}.yml
