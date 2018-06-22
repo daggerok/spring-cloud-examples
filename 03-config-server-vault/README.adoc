@@ -9,7 +9,7 @@ Spring Could Config Server + Vault
 ==== vault profile properties
 
 .VaultEnvironmentRepository.java - org/springframework/cloud/config/server/environment/VaultEnvironmentRepository.class
-[sources,java]
+[source,java]
 ----
 @ConfigurationProperties("spring.cloud.config.server.vault")
 public class VaultEnvironmentRepository implements EnvironmentRepository, Ordered {
@@ -44,7 +44,7 @@ public class VaultEnvironmentRepository implements EnvironmentRepository, Ordere
 ==== override any property
 
 . override vault host in bootstrap.yml
-[sources,yaml]
+[source,yaml]
 ----
 spring:
   profiles:
@@ -59,7 +59,7 @@ spring:
 === worked in separate: rabbit and vault in docker-compose + config-server run locally
 
 .build, run and test - not worked with confog-server in docker, run it in separate mode locally after vault docker will be bootstrapped
-[sources,bash]
+[source,bash]
 ----
 bash gradlew clean assemble composeUp bootRun
 # do some...
@@ -69,7 +69,7 @@ bash gradlew composeDown
 ==== spring-cloud-config-vault
 
 .do unauthorized request
-[sources,bash]
+[source,bash]
 ----
 http :8888/application-default.properties
 HTTP/1.1 400
@@ -90,7 +90,7 @@ X-Application-Context: application:vault:8888
 ----
 
 .do authorized request
-[sources,bash]
+[source,bash]
 ----
 http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
 HTTP/1.1 200
@@ -102,14 +102,14 @@ X-Application-Context: application:vault:8888
 ----
 
 .authorize vault in console
-[sources,bash]
+[source,bash]
 ----
 echo "spring-cloud-examples-vault-token" > ~/.vault-token
 export VAULT_ADDR='http://0.0.0.0:8200'
 ----
 
 .add some data t ovault storage
-[sources,bash]
+[source,bash]
 ----
 vault write /secret/application foo=bar
 Success! Data written to: secret/application
@@ -119,7 +119,7 @@ Success! Data written to: secret/bootstrap
 ----
 
 .fetch data
-[sources,bash]
+[source,bash]
 ----
 http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
 HTTP/1.1 200
@@ -165,7 +165,7 @@ X-Application-Context: application:vault:8888
 ==== vault REST API
 
 .vault using REST API
-[sources,bash]
+[source,bash]
 ----
 http :8200/v1/sys/health
 HTTP/1.1 200 OK
@@ -188,13 +188,13 @@ Date: Sun, 24 Sep 2017 06:07:03 GMT
 === not worked all in docker-compose together
 
 .add in settings.gralde
-[sources,gradle]
+[source,gradle]
 ----
 include "docker:vault-rabbitmq-config"
 ----
 
 .build, run and test - not worked with confog-server in docker, run it in separate mode locally after vault docker will be bootstrapped
-[sources,bash]
+[source,bash]
 ----
 bash gradlew clean assemble composeUp
 # do some...
@@ -202,7 +202,7 @@ bash gradlew composeDown
 ----
 
 .do unauthorized request
-[sources,bash]
+[source,bash]
 ----
 http :8888/application-default.properties
 HTTP/1.1 400
@@ -223,7 +223,7 @@ X-Application-Context: application:vault:8888
 ----
 
 .do some authorized requests
-[sources,bash]
+[source,bash]
 ----
 http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
 HTTP/1.1 200
@@ -235,14 +235,14 @@ X-Application-Context: application:vault:8888
 ----
 
 .authorize vault in console
-[sources,bash]
+[source,bash]
 ----
 echo "spring-cloud-examples-vault-token" > ~/.vault-token
 export VAULT_ADDR='http://0.0.0.0:8200'
 ----
 
 .add some data
-[sources,bash]
+[source,bash]
 ----
 vault write /secret/application foo=bar
 Success! Data written to: secret/application
@@ -252,7 +252,7 @@ Success! Data written to: secret/bootstrap
 ----
 
 .fetch data
-[sources,bash]
+[source,bash]
 ----
 http :8888/application-default.properties 'X-Config-Token:spring-cloud-examples-vault-token'
 HTTP/1.1 200
