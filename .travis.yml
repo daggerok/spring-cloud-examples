@@ -1,25 +1,40 @@
-group: trusty_lts
 service:
 - docker
+
 language: java
+jdk: oraclejdk8
+
 #jdk:
 #- openjdk8
 #- oraclejdk8
+
+addons:
+  apt:
+    update: true
+    packages:
+    - docker-ce
+    - python-pip
+    - curl
+    - jq
+    - libxml2-utils
+    - libappindicator1
+    - fonts-liberation
+    - google-chrome-stable
+
 install: true
 before_install:
-- sudo apt update -Y || true
-# install docker-compose
-- sudo apt install -y --no-install-recommends docker-ce python-pip curl jq libxml2-utils libappindicator1 fonts-liberation
 - sudo pip install docker-compose httpie
-# frontend tests
+
+#- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+#- sudo dpkg -i google-chrome*.deb
 - export CHROME_BIN=/usr/bin/google-chrome
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
-- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-- sudo dpkg -i google-chrome*.deb
+
 # kill on ports
 - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
 - stop_any 5432 5672 27017 3000 8000 8080 80 27017 5672 5432
+
 script:
 - bash gradlew clean build asciidoctor
 - export ROOT=$PWD
@@ -42,6 +57,7 @@ script:
     bash gradlew composeUp
     bash gradlew composeDown
   done;
+
 cache:
   directories:
   - $HOME/.m2/
