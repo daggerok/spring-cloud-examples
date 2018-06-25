@@ -11,8 +11,13 @@ Maksim Kostromin <daggerok@gmail.com>
 :github_branch_prefix: {github_url}/tree
 
 [discrete]
+
 == Introduction
-include::includes/Introduction.adoc[]
+include::../../README.adoc[tags=content]
+
+== Spring cloud Gateway
+- link:https://github.com/daggerok/spring-cloud-gateway-example[GitHub repo page]
+- link:https://daggerok.github.io/spring-cloud-gateway-example[GitHub documentation page]
 
 == ConfigServer
 include::../../01-spring-cloud-config-server/README.adoc[tags=content]
@@ -45,6 +50,6 @@ include::../../06-spring-cloud-dataflow-kubernetes/README.adoc[tags=content]
 include::../../07-spring-cloud-stream/README.adoc[tags=content]
 
 == links
-include::includes/Links.adoc[]
+- link:http://asciidoctor.org/docs/user-manual/#builtin-attributes[Asciidoctor attributes]
 
 == Enjoy! :)

@@ -1,3 +1,0 @@
-This documentation contains some help to
-link:{github_url}[examples from spring-cloud-examples repository].
-It's contains some spring-cloud playground projects
