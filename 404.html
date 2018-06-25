@@ -601,30 +601,31 @@ table.CodeRay td.code>pre{padding:0}
 <span id="author" class="author">Maksim Kostromin</span><br>
 <span id="email" class="email"><a href="mailto:daggerok@gmail.com">daggerok@gmail.com</a></span><br>
 <span id="revnumber">version 0.4.1,</span>
-<span id="revdate">2018-06-22 05:40:27 UTC</span>
+<span id="revdate">2018-06-25 05:01:12 UTC</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#configserver">1. ConfigServer</a></li>
-<li><a href="#configserver-encryption-decryption">2. ConfigServer encryption / decryption</a></li>
-<li><a href="#configserver-zipkinserver">3. ConfigServer + ZipkinServer</a></li>
-<li><a href="#configserver-vault">4. ConfigServer + Vault</a>
+<li><a href="#spring-cloud-gateway">1. Spring cloud Gateway</a></li>
+<li><a href="#configserver">2. ConfigServer</a></li>
+<li><a href="#configserver-encryption-decryption">3. ConfigServer encryption / decryption</a></li>
+<li><a href="#configserver-zipkinserver">4. ConfigServer + ZipkinServer</a></li>
+<li><a href="#configserver-vault">5. ConfigServer + Vault</a>
 <ul class="sectlevel2">
-<li><a href="#important-to-know">4.1. important to know</a></li>
-<li><a href="#worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">4.2. worked in separate: rabbit and vault in docker-compose + config-server run locally</a></li>
-<li><a href="#not-worked-all-in-docker-compose-together">4.3. not worked all in docker-compose together</a></li>
-<li><a href="#links">4.4. links</a></li>
+<li><a href="#important-to-know">5.1. important to know</a></li>
+<li><a href="#worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">5.2. worked in separate: rabbit and vault in docker-compose + config-server run locally</a></li>
+<li><a href="#not-worked-all-in-docker-compose-together">5.3. not worked all in docker-compose together</a></li>
+<li><a href="#links">5.4. links</a></li>
 </ul>
 </li>
-<li><a href="#configserver-native-profile">5. ConfigServer native profile</a></li>
-<li><a href="#search-locations-in-configserver-native">6. Search Locations in ConfigServer Native</a></li>
-<li><a href="#override-spring-cloud-config">7. Override Spring Cloud Config</a></li>
-<li><a href="#spring-cloud-task">8. Spring Cloud Task</a></li>
-<li><a href="#spring-cloud-dataflow-kubernetes">9. Spring Cloud Dataflow Kubernetes</a></li>
-<li><a href="#spring-cloud-stream">10. Spring Cloud Stream</a></li>
-<li><a href="#links-2">11. links</a></li>
-<li><a href="#enjoy">12. Enjoy! :)</a></li>
+<li><a href="#configserver-native-profile">6. ConfigServer native profile</a></li>
+<li><a href="#search-locations-in-configserver-native">7. Search Locations in ConfigServer Native</a></li>
+<li><a href="#override-spring-cloud-config">8. Override Spring Cloud Config</a></li>
+<li><a href="#spring-cloud-task">9. Spring Cloud Task</a></li>
+<li><a href="#spring-cloud-dataflow-kubernetes">10. Spring Cloud Dataflow Kubernetes</a></li>
+<li><a href="#spring-cloud-stream">11. Spring Cloud Stream</a></li>
+<li><a href="#links-2">12. links</a></li>
+<li><a href="#enjoy">13. Enjoy! :)</a></li>
 </ul>
 </div>
 </div>
@@ -633,14 +634,80 @@ table.CodeRay td.code>pre{padding:0}
 <div class="sectionbody">
 <h2 id="introduction" class="discrete">Introduction</h2>
 <div class="paragraph">
-<p>This documentation contains some help to
-<a href="https://github.com/daggerok/spring-cloud-examples">examples from spring-cloud-examples repository</a>.
-It&#8217;s contains some spring-cloud playground projects</p>
+<p>This repository contains some spring-cloud playground projects</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="./spring-cloud-cli/">Spring Cloud CLI usage</a></p>
+</li>
+<li>
+<p><a href="01-spring-cloud-config-server/">Spring Cloud Config Server</a></p>
+</li>
+<li>
+<p><a href="01-config-server-encryption-decryption/">Config Server encryption / decryption</a></p>
+</li>
+<li>
+<p><a href="02-config-server-zipkin-server/">Config Server + Zipkin Server</a></p>
+</li>
+<li>
+<p><a href="03-config-server-vault/">Config Server + Vault</a></p>
+</li>
+<li>
+<p><a href="04-config-server-native/">Config Server native profile</a></p>
+</li>
+<li>
+<p><a href="04-native-search-locations/">Search Locations with Config Server Native</a></p>
+</li>
+<li>
+<p><a href="04-config-server-overrides/">Spring Cloud Config Server Overrides</a></p>
+</li>
+<li>
+<p><a href="05-spring-cloud-task/">Spring Cloud Task</a></p>
+</li>
+<li>
+<p><a href="06-spring-cloud-dataflow-kubernetes/">Spring Cloud Dataflow Kubernetes</a></p>
+</li>
+<li>
+<p><a href="07-spring-cloud-stream/">Spring Cloud Stream</a></p>
+</li>
+<li>
+<p><a href="reactive-data-flow-systems/">reactive data flow systems</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Other repositories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/daggerok/spring-cloud-gateway-example">Spring Cloud Gateway | Splitting monolith into micro-services</a></p>
+</li>
+<li>
+<p><a href="https://github.com/daggerok/serverless-examples">Serveless examples (spring-cloud-functions)</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="configserver">1. ConfigServer</h2>
+<h2 id="spring-cloud-gateway">1. Spring cloud Gateway</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/daggerok/spring-cloud-gateway-example">GitHub repo page</a></p>
+</li>
+<li>
+<p><a href="https://daggerok.github.io/spring-cloud-gateway-example">GitHub documentation page</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configserver">2. ConfigServer</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">build, run and test</div>
@@ -677,7 +744,7 @@ http :8888/config-server/default/</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="configserver-encryption-decryption">2. ConfigServer encryption / decryption</h2>
+<h2 id="configserver-encryption-decryption">3. ConfigServer encryption / decryption</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">build, run and test</div>
@@ -714,7 +781,7 @@ http :8888/config-server/default/</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="configserver-zipkinserver">3. ConfigServer + ZipkinServer</h2>
+<h2 id="configserver-zipkinserver">4. ConfigServer + ZipkinServer</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">build, run and test</div>
@@ -752,15 +819,15 @@ http :8888/zipkin-server/default</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="configserver-vault">4. ConfigServer + Vault</h2>
+<h2 id="configserver-vault">5. ConfigServer + Vault</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Spring Could Config Server + Vault</p>
 </div>
 <div class="sect2">
-<h3 id="important-to-know">4.1. important to know</h3>
+<h3 id="important-to-know">5.1. important to know</h3>
 <div class="sect3">
-<h4 id="vault-profile-properties">4.1.1. vault profile properties</h4>
+<h4 id="vault-profile-properties">5.1.1. vault profile properties</h4>
 <div class="listingblock">
 <div class="title">VaultEnvironmentRepository.java - org/springframework/cloud/config/server/environment/VaultEnvironmentRepository.class</div>
 <div class="content">
@@ -796,7 +863,7 @@ http :8888/zipkin-server/default</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="override-any-property">4.1.2. override any property</h4>
+<h4 id="override-any-property">5.1.2. override any property</h4>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -819,7 +886,7 @@ http :8888/zipkin-server/default</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">4.2. worked in separate: rabbit and vault in docker-compose + config-server run locally</h3>
+<h3 id="worked-in-separate-rabbit-and-vault-in-docker-compose-config-server-run-locally">5.2. worked in separate: rabbit and vault in docker-compose + config-server run locally</h3>
 <div class="listingblock">
 <div class="title">build, run and test - not worked with confog-server in docker, run it in separate mode locally after vault docker will be bootstrapped</div>
 <div class="content">
@@ -829,7 +896,7 @@ bash gradlew composeDown</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="spring-cloud-config-vault">4.2.1. spring-cloud-config-vault</h4>
+<h4 id="spring-cloud-config-vault">5.2.1. spring-cloud-config-vault</h4>
 <div class="listingblock">
 <div class="title">do unauthorized request</div>
 <div class="content">
@@ -926,7 +993,7 @@ X-Application-Context: application:vault:8888
 </div>
 </div>
 <div class="sect3">
-<h4 id="vault-rest-api">4.2.2. vault REST API</h4>
+<h4 id="vault-rest-api">5.2.2. vault REST API</h4>
 <div class="listingblock">
 <div class="title">vault using REST API</div>
 <div class="content">
@@ -951,7 +1018,7 @@ Date: Sun, 24 Sep 2017 06:07:03 GMT
 </div>
 </div>
 <div class="sect2">
-<h3 id="not-worked-all-in-docker-compose-together">4.3. not worked all in docker-compose together</h3>
+<h3 id="not-worked-all-in-docker-compose-together">5.3. not worked all in docker-compose together</h3>
 <div class="listingblock">
 <div class="title">add in settings.gralde</div>
 <div class="content">
@@ -1041,7 +1108,7 @@ info: config-server + vault</code></pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="links">4.4. links</h3>
+<h3 id="links">5.4. links</h3>
 <div class="olist arabic">
 <ol class="arabic">
 <li>
@@ -1062,7 +1129,7 @@ info: config-server + vault</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="configserver-native-profile">5. ConfigServer native profile</h2>
+<h2 id="configserver-native-profile">6. ConfigServer native profile</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="title">important</div>
@@ -1203,7 +1270,7 @@ mq:
 </div>
 </div>
 <div class="sect1">
-<h2 id="search-locations-in-configserver-native">6. Search Locations in ConfigServer Native</h2>
+<h2 id="search-locations-in-configserver-native">7. Search Locations in ConfigServer Native</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Search locations for Spring Could Config Server Native</p>
@@ -1361,7 +1428,7 @@ db.username: postgres</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="override-spring-cloud-config">7. Override Spring Cloud Config</h2>
+<h2 id="override-spring-cloud-config">8. Override Spring Cloud Config</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Spring Could Config Overrides</p>
@@ -1509,7 +1576,7 @@ foo: overridden foo</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-cloud-task">8. Spring Cloud Task</h2>
+<h2 id="spring-cloud-task">9. Spring Cloud Task</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Spring Could Task</p>
@@ -1537,7 +1604,7 @@ bash gradlew composeDown</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-cloud-dataflow-kubernetes">9. Spring Cloud Dataflow Kubernetes</h2>
+<h2 id="spring-cloud-dataflow-kubernetes">10. Spring Cloud Dataflow Kubernetes</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Unresolved directive in index.adoc - include::../../06-spring-cloud-dataflow-kubernetes/README.adoc[tags=content]</p>
@@ -1545,7 +1612,7 @@ bash gradlew composeDown</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="spring-cloud-stream">10. Spring Cloud Stream</h2>
+<h2 id="spring-cloud-stream">11. Spring Cloud Stream</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Spring Could Stream</p>
@@ -1570,19 +1637,19 @@ bash gradlew composeDown</code></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="links-2">11. links</h2>
+<h2 id="links-2">12. links</h2>
 <div class="sectionbody">
-<div class="olist arabic">
-<ol class="arabic">
+<div class="ulist">
+<ul>
 <li>
 <p><a href="http://asciidoctor.org/docs/user-manual/#builtin-attributes">Asciidoctor attributes</a></p>
 </li>
-</ol>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="enjoy">12. Enjoy! :)</h2>
+<h2 id="enjoy">13. Enjoy! :)</h2>
 <div class="sectionbody">
 
 </div>
@@ -1591,7 +1658,7 @@ bash gradlew composeDown</code></pre>
 <div id="footer">
 <div id="footer-text">
 Version 0.4.1<br>
-Last updated 2018-06-22 05:40:27 UTC
+Last updated 2018-06-25 05:01:12 UTC
 </div>
 </div>
 </body>
