@@ -6,71 +6,68 @@ jdk: oraclejdk8
 
 addons:
   apt:
-    update: true
     packages:
-    - docker-ce
-    - python-pip
-    - curl
-    - jq
-    - libxml2-utils
-    - libappindicator1
-    - fonts-liberation
-    - google-chrome-stable
+      - docker-ce
+      - python-pip
+      - curl
+      - jq
+      - libxml2-utils
+      - libappindicator1
+      - fonts-liberation
+      - google-chrome-stable
 
 install: true
 before_install:
-- sudo pip install docker-compose httpie
+  - sudo pip install docker-compose httpie
 
-#- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-#- sudo dpkg -i google-chrome*.deb
-- export CHROME_BIN=/usr/bin/google-chrome
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
+  - export CHROME_BIN=/usr/bin/google-chrome
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
 
-# kill on ports
-- source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
-- stop_any 5432 5672 27017 3000 8000 8080 80 27017 5672 5432
+  # kill on ports
+  - source <(curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash)
+  - stop_any 5432 5672 27017 3000 8000 8080 80 27017 5672 5432
 
 script:
-- bash gradlew clean build asciidoctor
-- export root=$PWD
-- >
-  for path in \
-    07-spring-cloud-stream \
-    05-spring-cloud-task \
-    04-config-server-overrides \
-    04-native-search-locations \
-    04-config-server-native \
-    03-config-server-vault \
-    02-config-server-zipkin-server \
-    01-config-server-encryption-decryption \
-    01-spring-cloud-config-server \
-    0-spring-cloud-template ;
-  do
-    export TARGET="$root/$path"
-    cd $TARGET
-    bash gradlew clean assemble
-    bash gradlew composeUp
-    bash gradlew composeDown
-  done;
+  - bash gradlew clean build asciidoctor
+  - export root=$PWD
+  - >
+    for path in \
+      07-spring-cloud-stream \
+      05-spring-cloud-task \
+      04-config-server-overrides \
+      04-native-search-locations \
+      04-config-server-native \
+      03-config-server-vault \
+      02-config-server-zipkin-server \
+      01-config-server-encryption-decryption \
+      01-spring-cloud-config-server \
+      0-spring-cloud-template ;
+    do
+      export TARGET="$root/$path"
+      cd $TARGET
+      bash gradlew clean assemble
+      bash gradlew composeUp
+      bash gradlew composeDown
+    done;
 
 before_cache:
-- sudo rm -rf $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
-- sudo rm -rf $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
-- sudo rm -rf $HOME/.gradle/caches/modules-2/modules-2.lock
+  - sudo rm -rf $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
+  - sudo rm -rf $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
+  - sudo rm -rf $HOME/.gradle/caches/modules-2/modules-2.lock
 
 cache:
   directories:
-  - $HOME/.m2/
-  - $HOME/.gradle/
+    - $HOME/.m2/
+    - $HOME/.gradle/
 
 env:
   global:
     secure: i6x6LoQalvUoWu5OvCsj6yK1czXoDQqqIh04SQlNhjoX+9RiMAPjzYuS8YgyA5YTvhYTxkRjpnZHAQANNp34w7iUf8wwTXhqJlRud5OAk3GS4ZdS4olUaYTWQZpzRlzLP5ukpPi0vmzEIQ0nvVoSXGgSEOzABfI8w13AVAMVTWOdWE8vjQlMAUgV4hPtE7JGL6dq4SmQ2Gek9QXEK2tt2NVyiGPIMMC1Qgpj154Nkhz7VhbXfaFk4dhu7ICX+AiZi+U/2IDbqOy+0cBLwanaGYsBSuwT6u24sSijI+Q0Js0Nry1lohfp8py9tCNf2T5GeZ+UJx1uJ5d9hTitMIECFYS6jrbT1tl70MsLcuF4kIFvjZAr/tYQBn4QgjONQne8EpX3v2HEg0ZQV7v751R1YLcR1mO0nyJawDY4VVGnOiDmlqNq1znRIYPfpr7Ag7ZMgt78nHT2LNmLkZNr5MNg2Z2aoJq29MFm0G6pCxoPg+cBhQ5p73NxGvqDmb+NHXw4DeMpWggG40Xh8XlBEFHjxHg+ryr7Fbl9oHS3xtVppDKLvUgkEBOxgkjMEvrSM7lmrsPluyxv9qy7lTQaEd+dg+tbsviHu20XAKZrTr1e6y8UBsQdNJ+lrGk4ywRy0VBQxSUPiycu2lEuJWoET4xlYWoYh5NYaIo7PYNL5lpxO0w=
 
 before_deploy:
-- cd $root
-- ./gradlew documentation
+  - cd $root
+  - ./gradlew documentation
 
 deploy:
   provider: pages
