@@ -21,5 +21,6 @@ Other repositories:
 
 - link:https://github.com/daggerok/spring-cloud-gateway-example[Spring Cloud Gateway | Splitting monolith into micro-services]
 - link:https://github.com/daggerok/serverless-examples[Serveless examples (spring-cloud-functions)]
+- link:https://github.com/daggerok/alibaba-example[Spring Cloud Alibaba]
 
 //end::content[]
